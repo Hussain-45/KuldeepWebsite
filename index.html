@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apex Football Academy | Elite Youth Football Training & Development</title>
+    <meta name="description" content="Join Apex Football Academy, the premier training academy for youth soccer development. Discover our programs, certified UEFA coaches, and state-of-the-art facilities. Book a free trial today!">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- CSS Stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Header / Navigation -->
+    <header class="header">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <span class="logo-icon">⚽</span>
+                <span class="logo-text">APEX<span class="highlight">FC</span></span>
+            </a>
+            
+            <button class="mobile-nav-toggle" aria-label="Toggle navigation" id="navToggle">
+                <span class="hamburger"></span>
+            </button>
+            
+            <nav class="nav-menu" id="navMenu">
+                <ul>
+                    <li><a href="#about" class="nav-link">Philosophy</a></li>
+                    <li><a href="#programs" class="nav-link">Programs</a></li>
+                    <li><a href="#schedule" class="nav-link">Schedule</a></li>
+                    <li><a href="#coaches" class="nav-link">Coaches</a></li>
+                    <li><a href="#testimonials" class="nav-link">Testimonials</a></li>
+                    <li><a href="#faq" class="nav-link">FAQ</a></li>
+                </ul>
+                <button class="btn btn-primary nav-cta open-modal-btn">Book Free Trial</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        
+        <!-- Hero Section -->
+        <section class="hero" id="hero">
+            <div class="hero-bg-overlay"></div>
+            <div class="hero-content-container">
+                <div class="hero-badge animate-on-scroll blur-in">🏆 Apex Football Academy</div>
+                <h1 class="hero-title animate-on-scroll blur-in delay-1">Unleash Your <br><span class="gradient-text">Football Potential</span></h1>
+                <p class="hero-description animate-on-scroll blur-in delay-2">
+                    Professional training, UEFA-certified coaches, and elite facilities designed to build the champions of tomorrow. Start your journey with a free trial session today.
+                </p>
+                <div class="hero-actions animate-on-scroll blur-in delay-3">
+                    <button class="btn btn-primary btn-large open-modal-btn pulse-glow">Book Free Trial</button>
+                    <a href="#programs" class="btn btn-secondary btn-large">Explore Programs</a>
+                </div>
+            </div>
+            <div class="scroll-indicator">
+                <div class="scroll-dot"></div>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section class="stats-section">
+            <div class="container">
+                <div class="stats-grid">
+                    <div class="stat-card spotlight-card animate-on-scroll fade-in">
+                        <div class="stat-number" data-target="500">0</div>
+                        <div class="stat-label">Active Players</div>
+                    </div>
+                    <div class="stat-card spotlight-card animate-on-scroll fade-in delay-1">
+                        <div class="stat-number" data-target="15">0</div>
+                        <div class="stat-label">UEFA Coaches</div>
+                    </div>
+                    <div class="stat-card spotlight-card animate-on-scroll fade-in delay-2">
+                        <div class="stat-number" data-target="30">0</div>
+                        <div class="stat-label">Tournament Wins</div>
+                    </div>
+                    <div class="stat-card spotlight-card animate-on-scroll fade-in delay-3">
+                        <div class="stat-number" data-target="98">0</div>
+                        <div class="stat-label">Success Rate (%)</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About / Philosophy Section -->
+        <section class="about-section" id="about">
+            <div class="container">
+                <div class="section-header text-center animate-on-scroll slide-up">
+                    <h2 class="section-title">Our Academy Philosophy</h2>
+                    <p class="section-subtitle">We don't just build great football players; we shape disciplined, tactical, and resilient individuals.</p>
+                </div>
+                
+                <div class="philosophy-grid">
+                    <div class="philosophy-card spotlight-card animate-on-scroll slide-left">
+                        <div class="card-icon">⚡</div>
+                        <h3 class="card-title">Technical Excellence</h3>
+                        <p class="card-text">Ball mastery, precision passing, dynamic dribbling, and structural positioning. Our players build a solid foundation of technical skills.</p>
+                    </div>
+                    <div class="philosophy-card spotlight-card animate-on-scroll slide-up delay-1">
+                        <div class="card-icon">🧠</div>
+                        <h3 class="card-title">Tactical Intelligence</h3>
+                        <p class="card-text">Spatial awareness, game-reading abilities, transition speeds, and positioning structures to outsmart opponents on the pitch.</p>
+                    </div>
+                    <div class="philosophy-card spotlight-card animate-on-scroll slide-right delay-2">
+                        <div class="card-icon">🛡️</div>
+                        <h3 class="card-title">Character & Discipline</h3>
+                        <p class="card-text">Leadership, teamwork, sportsmanship, and mental fortitude. We cultivate the mental strength required for high-stakes matches.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Programs & Age Groups -->
+        <section class="programs-section" id="programs">
+            <div class="container">
+                <div class="section-header text-center animate-on-scroll slide-up">
+                    <h2 class="section-title">Academy Programs</h2>
+                    <p class="section-subtitle">Tailored training regimens designed specifically for different age brackets and skill levels.</p>
+                </div>
+
+                <div class="programs-grid">
+                    <!-- U-8 Program -->
+                    <div class="program-card spotlight-card animate-on-scroll zoom-in">
+                        <div class="program-badge">Ages 5 - 8</div>
+                        <h3 class="program-name">Grassroots Foundations (U8)</h3>
+                        <p class="program-description">Fun-focused training introduction. Focuses on motor skills, coordination, agility, basic ball control, and teamwork.</p>
+                        <ul class="program-features">
+                            <li>⚽ 2 Sessions / Week</li>
+                            <li>⚽ Fun Agility Drills</li>
+                            <li>⚽ Friendly Match Play</li>
+                            <li>⚽ Max 10 Players/Coach</li>
+                        </ul>
+                        <div class="program-price">$79<span>/mo</span></div>
+                        <button class="btn btn-secondary btn-full open-modal-btn" data-program="U8 Grassroots">Sign Up</button>
+                    </div>
+
+                    <!-- U-12 Program -->
+                    <div class="program-card featured spotlight-card animate-on-scroll zoom-in delay-1">
+                        <div class="program-tag">Most Popular</div>
+                        <div class="program-badge">Ages 9 - 12</div>
+                        <h3 class="program-name">Development Squad (U12)</h3>
+                        <p class="program-description">Medium-intensity training. Focuses on tactical positioning, passing mechanics, speed of play, and set pieces.</p>
+                        <ul class="program-features">
+                            <li>⚽ 3 Sessions / Week</li>
+                            <li>⚽ Technical Video Analysis</li>
+                            <li>⚽ Inter-Academy Leagues</li>
+                            <li>⚽ Max 12 Players/Coach</li>
+                        </ul>
+                        <div class="program-price">$99<span>/mo</span></div>
+                        <button class="btn btn-primary btn-full open-modal-btn" data-program="U12 Development">Sign Up</button>
+                    </div>
+
+                    <!-- U-17 Program -->
+                    <div class="program-card spotlight-card animate-on-scroll zoom-in delay-2">
+                        <div class="program-badge">Ages 13 - 17</div>
+                        <h3 class="program-name">Elite Academy (U17)</h3>
+                        <p class="program-description">High-performance training preparing athletes for college tryouts, professional trials, and national scouting leagues.</p>
+                        <ul class="program-features">
+                            <li>⚽ 4 Sessions / Week</li>
+                            <li>⚽ High Strength & Conditioning</li>
+                            <li>⚽ Scouting & Tournaments</li>
+                            <li>⚽ Tactical Positioning GPS</li>
+                        </ul>
+                        <div class="program-price">$129<span>/mo</span></div>
+                        <button class="btn btn-secondary btn-full open-modal-btn" data-program="U17 Elite">Sign Up</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Weekly Schedule Section -->
+        <section class="schedule-section" id="schedule">
+            <div class="container">
+                <div class="section-header text-center animate-on-scroll slide-up">
+                    <h2 class="section-title">Weekly Training Schedule</h2>
+                    <p class="section-subtitle">Select your player's division to view current training days and time slots.</p>
+                </div>
+
+                <div class="schedule-tabs animate-on-scroll slide-up">
+                    <button class="tab-btn active" data-tab="u8">U-8 Foundations</button>
+                    <button class="tab-btn" data-tab="u12">U-12 Development</button>
+                    <button class="tab-btn" data-tab="u17">U-17 Elite</button>
+                </div>
+
+                <div class="schedule-content animate-on-scroll slide-up delay-1">
+                    <!-- U-8 Schedule -->
+                    <div class="schedule-table active" id="schedule-u8">
+                        <div class="schedule-grid">
+                            <div class="schedule-header">Day</div>
+                            <div class="schedule-header">Time</div>
+                            <div class="schedule-header">Focus Area</div>
+                            <div class="schedule-header">Pitch Location</div>
+                            
+                            <div class="schedule-day">Tuesday</div>
+                            <div>4:30 PM - 5:30 PM</div>
+                            <div class="focus-highlight">Ball Mastery & Fun</div>
+                            <div>Pitch A (Indoor)</div>
+                            
+                            <div class="schedule-day">Thursday</div>
+                            <div>4:30 PM - 5:30 PM</div>
+                            <div class="focus-highlight">Agility & Cooperation</div>
+                            <div>Pitch A (Indoor)</div>
+
+                            <div class="schedule-day">Saturday</div>
+                            <div>9:00 AM - 10:30 AM</div>
+                            <div class="focus-highlight">Intro Match Formats</div>
+                            <div>Pitch B (Outdoor)</div>
+                        </div>
+                    </div>
+
+                    <!-- U-12 Schedule -->
+                    <div class="schedule-table" id="schedule-u12">
+                        <div class="schedule-grid">
+                            <div class="schedule-header">Day</div>
+                            <div class="schedule-header">Time</div>
+                            <div class="schedule-header">Focus Area</div>
+                            <div class="schedule-header">Pitch Location</div>
+                            
+                            <div class="schedule-day">Monday</div>
+                            <div>5:30 PM - 7:00 PM</div>
+                            <div class="focus-highlight">Tactical Awareness</div>
+                            <div>Pitch B (Outdoor)</div>
+                            
+                            <div class="schedule-day">Wednesday</div>
+                            <div>5:30 PM - 7:00 PM</div>
+                            <div class="focus-highlight">Passing & Transition</div>
+                            <div>Pitch B (Outdoor)</div>
+
+                            <div class="schedule-day">Friday</div>
+                            <div>5:30 PM - 7:00 PM</div>
+                            <div class="focus-highlight">Set Pieces & Shooting</div>
+                            <div>Pitch A (Indoor)</div>
+                        </div>
+                    </div>
+
+                    <!-- U-17 Schedule -->
+                    <div class="schedule-table" id="schedule-u17">
+                        <div class="schedule-grid">
+                            <div class="schedule-header">Day</div>
+                            <div class="schedule-header">Time</div>
+                            <div class="schedule-header">Focus Area</div>
+                            <div class="schedule-header">Pitch Location</div>
+                            
+                            <div class="schedule-day">Monday</div>
+                            <div>7:00 PM - 8:45 PM</div>
+                            <div class="focus-highlight">Strength & Conditioning</div>
+                            <div>Fitness Arena</div>
+                            
+                            <div class="schedule-day">Tuesday</div>
+                            <div>7:00 PM - 8:45 PM</div>
+                            <div class="focus-highlight">Attacking Transitions</div>
+                            <div>Stadium Turf (Main)</div>
+
+                            <div class="schedule-day">Thursday</div>
+                            <div>7:00 PM - 8:45 PM</div>
+                            <div class="focus-highlight">Defensive Shape Blocks</div>
+                            <div>Stadium Turf (Main)</div>
+
+                            <div class="schedule-day">Saturday</div>
+                            <div>11:00 AM - 1:00 PM</div>
+                            <div class="focus-highlight">Competitive Match / Scouting</div>
+                            <div>Stadium Turf (Main)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Coaches Section -->
+        <section class="coaches-section" id="coaches">
+            <div class="container">
+                <div class="section-header text-center animate-on-scroll slide-up">
+                    <h2 class="section-title">Elite Coaching Staff</h2>
+                    <p class="section-subtitle">Learn from UEFA-certified trainers and former professional players dedicated to your growth.</p>
+                </div>
+
+                <div class="coaches-grid">
+                    <!-- Coach 1 -->
+                    <div class="coach-card spotlight-card animate-on-scroll slide-left">
+                        <div class="coach-img-wrapper">
+                            <img src="images/coach_marcus.png" alt="Coach Marcus Vance" class="coach-img">
+                        </div>
+                        <div class="coach-info">
+                            <span class="coach-role">Head of Academy</span>
+                            <h3 class="coach-name">Coach Marcus Vance</h3>
+                            <p class="coach-credentials">UEFA Pro License | Former Premier League Defender</p>
+                            <p class="coach-bio">Marcus brings over 12 years of professional playing experience and 8 years directing elite European academies.</p>
+                        </div>
+                    </div>
+
+                    <!-- Coach 2 -->
+                    <div class="coach-card spotlight-card animate-on-scroll slide-up delay-1">
+                        <div class="coach-img-wrapper">
+                            <img src="images/coach_alex.png" alt="Coach Alex Mercer" class="coach-img">
+                        </div>
+                        <div class="coach-info">
+                            <span class="coach-role">Goalkeeping Specialist</span>
+                            <h3 class="coach-name">Coach Alex Mercer</h3>
+                            <p class="coach-credentials">UEFA A Goalkeeping | Former MLS Shot-stopper</p>
+                            <p class="coach-bio">Alex focuses on reaction speed, handling, cross control, and building tactical distribution skills from the back.</p>
+                        </div>
+                    </div>
+
+                    <!-- Coach 3 -->
+                    <div class="coach-card spotlight-card animate-on-scroll slide-right delay-2">
+                        <div class="coach-img-wrapper">
+                            <img src="images/coach_sarah.png" alt="Coach Sarah Jenkins" class="coach-img">
+                        </div>
+                        <div class="coach-info">
+                            <span class="coach-role">Technical Development</span>
+                            <h3 class="coach-name">Coach Sarah Jenkins</h3>
+                            <p class="coach-credentials">USSF National A License | NCAA Div 1 Champion</p>
+                            <p class="coach-bio">Sarah specializes in grassroots mechanics, ball mastery coordination, and transition intelligence training.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section class="testimonials-section" id="testimonials">
+            <div class="container">
+                <div class="section-header text-center animate-on-scroll slide-up">
+                    <h2 class="section-title">Voices from the Pitch</h2>
+                    <p class="section-subtitle">What parents, players, and alumni say about their training experiences at Apex.</p>
+                </div>
+
+                <div class="testimonial-slider-container animate-on-scroll slide-up">
+                    <div class="testimonial-track" id="testimonialTrack">
+                        
+                        <!-- Slide 1 -->
+                        <div class="testimonial-slide active">
+                            <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+                            <blockquote class="testimonial-quote">
+                                "Apex Football Academy transformed my son's game. The level of coaching is outstanding, and the discipline he learned has translated off the field into his schoolwork and character."
+                            </blockquote>
+                            <div class="testimonial-author">
+                                <div class="author-avatar">
+                                    <img src="images/parent_david.png" alt="David K." class="author-avatar-img">
+                                </div>
+                                <div class="author-details">
+                                    <cite class="author-name">David K.</cite>
+                                    <span class="author-relation">Parent of U-12 Player</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Slide 2 -->
+                        <div class="testimonial-slide">
+                            <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+                            <blockquote class="testimonial-quote">
+                                "The elite training sessions prepared me perfectly for my college trials. The GPS tracking and tactical sessions gave me the edge I needed to succeed."
+                            </blockquote>
+                            <div class="testimonial-author">
+                                <div class="author-avatar">
+                                    <img src="images/alumnus_lucas.png" alt="Lucas M." class="author-avatar-img">
+                                </div>
+                                <div class="author-details">
+                                    <cite class="author-name">Lucas M.</cite>
+                                    <span class="author-relation">Apex Academy Alumnus</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Slide 3 -->
+                        <div class="testimonial-slide">
+                            <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+                            <blockquote class="testimonial-quote">
+                                "Every coach is encouraging but demanding. My daughter loves coming to practice and has developed amazing footwork and spatial confidence since joining U-8."
+                            </blockquote>
+                            <div class="testimonial-author">
+                                <div class="author-avatar">
+                                    <img src="images/parent_elena.png" alt="Elena R." class="author-avatar-img">
+                                </div>
+                                <div class="author-details">
+                                    <cite class="author-name">Elena R.</cite>
+                                    <span class="author-relation">Parent of U-8 Player</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Slider Controls -->
+                    <div class="slider-controls">
+                        <button class="slider-btn prev-btn" id="prevBtn" aria-label="Previous testimonial">←</button>
+                        <div class="slider-dots" id="sliderDots"></div>
+                        <button class="slider-btn next-btn" id="nextBtn" aria-label="Next testimonial">→</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="faq-section" id="faq">
+            <div class="container">
+                <div class="section-header text-center animate-on-scroll slide-up">
+                    <h2 class="section-title">Frequently Asked Questions</h2>
+                    <p class="section-subtitle">Everything you need to know about our schedules, trials, and equipment.</p>
+                </div>
+
+                <div class="faq-grid animate-on-scroll slide-up">
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            <span>How does the free trial session work?</span>
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>The free trial allows prospective players to participate in a standard age-specific training session. Our coaches will evaluate their skill level, introduce them to the team, and recommend the best development pathway.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            <span>What equipment does my child need to bring?</span>
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>All trial players should wear comfortable athletic clothing, shin guards, soccer cleats, and bring a water bottle. We supply training bibs, soccer balls, and professional coaching equipment.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            <span>What happens if training is cancelled due to weather?</span>
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>In case of heavy storm or extreme heat advisory, outdoor sessions are moved to our Indoor Arena (Pitch A) or rescheduled. Registered members will receive immediate SMS notifications and Email updates.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            <span>Can we change training groups during the season?</span>
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Yes. Our coaches perform quarterly evaluations. If a player shows accelerated technical growth or needs a different level of tactical competition, they can be transitioned to an advanced bracket.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-info">
+                    <a href="#" class="logo footer-logo">
+                        <span class="logo-icon">⚽</span>
+                        <span class="logo-text">APEX<span class="highlight">FC</span></span>
+                    </a>
+                    <p>Building disciplined, technical, and tactical leaders of tomorrow. Train like a professional.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link" aria-label="Facebook">FB</a>
+                        <a href="#" class="social-link" aria-label="Instagram">IG</a>
+                        <a href="#" class="social-link" aria-label="Twitter">TW</a>
+                        <a href="#" class="social-link" aria-label="YouTube">YT</a>
+                    </div>
+                </div>
+                <div class="footer-nav">
+                    <h4>Links</h4>
+                    <ul>
+                        <li><a href="#about">Philosophy</a></li>
+                        <li><a href="#programs">Programs</a></li>
+                        <li><a href="#schedule">Schedule</a></li>
+                        <li><a href="#coaches">Coaches</a></li>
+                        <li><a href="#testimonials">Testimonials</a></li>
+                        <li><a href="#faq">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Contact Us</h4>
+                    <p>📍 100 Stadium Boulevard, Sports Zone</p>
+                    <p>📞 +1 (555) 012-3456</p>
+                    <p>✉️ register@apexfootball.com</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Apex Football Academy. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Booking Modal Portal -->
+    <div class="modal-overlay" id="bookingModal">
+        <div class="modal-container">
+            <button class="modal-close" id="modalClose" aria-label="Close modal">&times;</button>
+            <div class="modal-header">
+                <h3>Trial Session Registration</h3>
+                <p>Submit player details to secure a spot for a free evaluation training session.</p>
+            </div>
+            <form class="modal-form" id="bookingForm">
+                <div class="modal-form-column player-info-column">
+                    <h4 class="column-subtitle">Player Information</h4>
+                    <div class="form-group player-name">
+                        <label for="playerName">Player Name</label>
+                        <input type="text" id="playerName" placeholder="Enter player full name" required>
+                    </div>
+                    <div class="form-group-row">
+                        <div class="form-group player-age">
+                            <label for="playerAge">Player Age</label>
+                            <input type="number" id="playerAge" min="4" max="18" placeholder="e.g. 10" required>
+                        </div>
+                        <div class="form-group program-select">
+                            <label for="programSelect">Academy Program</label>
+                            <select id="programSelect" required>
+                                <option value="" disabled selected>Choose a Program</option>
+                                <option value="U8 Grassroots">Grassroots (U-8)</option>
+                                <option value="U12 Development">Development (U-12)</option>
+                                <option value="U17 Elite">Elite Academy (U-17)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group preferred-date">
+                        <label for="preferredDate">Preferred Trial Date</label>
+                        <input type="date" id="preferredDate" required>
+                    </div>
+                </div>
+                
+                <div class="modal-form-column parent-info-column">
+                    <h4 class="column-subtitle">Parent Information</h4>
+                    <div class="form-group parent-name">
+                        <label for="parentName">Parent/Guardian Name</label>
+                        <input type="text" id="parentName" placeholder="Enter parent name" required>
+                    </div>
+                    <div class="form-group parent-phone">
+                        <label for="parentPhone">Phone Number</label>
+                        <input type="tel" id="parentPhone" placeholder="(555) 000-0000" required>
+                    </div>
+                    <div class="form-group parent-email">
+                        <label for="parentEmail">Email Address</label>
+                        <input type="email" id="parentEmail" placeholder="parent@example.com" required>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-full pulse-glow form-submit">Complete Registration ➔</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Custom Toast Notification System -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- JS Logic Script -->
+    <script src="app.js"></script>
+</body>
+</html>
