@@ -499,6 +499,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <span id="cartSubtotal">₹0</span>
                     </div>
                     <button class="btn btn-primary btn-full checkout-btn" id="checkoutBtn">Proceed to Checkout</button>
+                    <button class="btn btn-secondary btn-full track-order-drawer-btn" id="openTrackingModalBtn" style="margin-top: 10px; background-color: transparent; border: 1px solid var(--color-border); color: var(--color-text-muted);">🔍 Track Existing Order</button>
                 </div>
             </div>
         </div>
@@ -579,7 +580,21 @@ document.addEventListener('DOMContentLoaded', () => {
                             <div class="qr-container">
                                 <img src="images/upi_qr.jpg" alt="UPI QR Code" class="upi-qr-image">
                             </div>
-                            <p class="upi-subtext">⚠️ Please scan and complete the payment before clicking 'Place Order'.</p>
+                            
+                            <!-- Screenshot Upload Zone -->
+                            <div class="form-group screenshot-upload-group" style="width: 100%; text-align: left;">
+                                <label style="display: block; margin-bottom: 8px; font-weight: 500; font-size: 0.9rem;">Upload Payment Screenshot <span class="required-star" style="color: var(--color-accent);">*</span></label>
+                                <div class="screenshot-upload-zone" id="screenshotDropZone">
+                                    <input type="file" id="upiScreenshot" accept="image/*" style="display: none;">
+                                    <div class="upload-placeholder" id="uploadPlaceholder">
+                                        <span class="upload-icon">📸</span>
+                                        <span class="upload-text" id="uploadStatusText">Click or drag image to upload screenshot</span>
+                                    </div>
+                                    <img id="screenshotPreview" class="screenshot-preview-image" style="display: none; max-width: 100%; max-height: 150px; margin: 10px auto; border-radius: 6px; object-fit: contain;" alt="Screenshot Preview">
+                                </div>
+                            </div>
+                            
+                            <p class="upi-subtext">⚠️ Please complete the payment and upload the screenshot before clicking 'Place Order'.</p>
                         </div>
                     </div>
                     
@@ -624,7 +639,42 @@ document.addEventListener('DOMContentLoaded', () => {
                         <strong>3-5 Business Days</strong>
                     </div>
                 </div>
+
+                <!-- WhatsApp Notify Box -->
+                <div id="upiNotificationBox" class="upi-notification-box" style="display: none; margin: 16px 0; padding: 16px; background-color: rgba(37, 211, 102, 0.05); border: 1px dashed rgba(37, 211, 102, 0.3); border-radius: 8px;">
+                    <p class="notify-message" style="font-size: 0.85rem; color: var(--color-text); margin-bottom: 12px; line-height: 1.4;">📲 Please notify the Academy Manager via WhatsApp with your screenshot to confirm your order instantly.</p>
+                    <a href="#" id="whatsappNotifyBtn" target="_blank" class="btn btn-whatsapp" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; background-color: #25d366; color: white; border: none; font-weight: 600; width: 100%; padding: 12px; border-radius: 8px; transition: var(--transition-smooth);">
+                        <span class="whatsapp-icon" style="font-size: 1.2rem;">💬</span> Notify Owner on WhatsApp
+                    </a>
+                </div>
+
+                <!-- Success Order Tracking Status Timeline -->
+                <div class="order-tracking-box" style="margin: 20px 0; border-top: 1px solid var(--color-border); padding-top: 16px;">
+                    <h4 class="column-subtitle text-left" style="margin-bottom: 12px; font-family: var(--font-heading); font-size: 1rem; color: var(--color-text);">Live Order Tracking</h4>
+                    <div class="tracking-timeline" id="receiptTrackingTimeline">
+                        <!-- Loaded dynamically -->
+                    </div>
+                </div>
+
                 <button class="btn btn-primary" id="successCloseBtn">Continue Shopping</button>
+            </div>
+        </div>
+
+        <!-- Track Order Modal Overlay -->
+        <div class="modal-overlay" id="trackingModalOverlay">
+            <div class="modal-container tracking-modal-container">
+                <button class="modal-close-btn" id="trackingModalCloseBtn" aria-label="Close Tracking">&times;</button>
+                <div class="modal-header">
+                    <h3 class="modal-title highlight">Track Your Order</h3>
+                    <p class="modal-subtitle">Enter your order reference number to see real-time progress details</p>
+                </div>
+                <div class="tracking-search-box" style="display: flex; gap: 10px; margin-bottom: 20px;">
+                    <input type="text" id="trackingSearchInput" placeholder="e.g. APEX-58392" style="flex: 1; padding: 12px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--color-border); border-radius: 8px; color: white; font-family: var(--font-body);" required>
+                    <button class="btn btn-primary" id="trackingSearchSubmitBtn" style="padding: 0 20px;">Search</button>
+                </div>
+                <div class="tracking-result-box" id="trackingResultBox" style="display: none; text-align: left;">
+                    <!-- Results loaded dynamically -->
+                </div>
             </div>
         </div>
     `;
@@ -868,6 +918,23 @@ document.addEventListener('DOMContentLoaded', () => {
             if (upiQrPanel) {
                 upiQrPanel.style.display = 'none';
             }
+
+            // Reset screenshot upload state
+            upiScreenshotBase64 = '';
+            if (upiScreenshotInput) upiScreenshotInput.value = '';
+            if (screenshotPreview) {
+                screenshotPreview.src = '';
+                screenshotPreview.style.display = 'none';
+            }
+            if (uploadPlaceholder) {
+                uploadPlaceholder.style.display = 'block';
+            }
+            if (uploadStatusText) {
+                uploadStatusText.textContent = "Click or drag image to upload screenshot";
+            }
+            if (screenshotDropZone) {
+                screenshotDropZone.classList.remove('has-file');
+            }
             
             checkoutModalOverlay.classList.add('active');
         });
@@ -886,6 +953,258 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+    // --------------------------------------------------------------------------
+    // Screenshot Upload File Handling (Drag & Drop + Input Click)
+    // --------------------------------------------------------------------------
+    let upiScreenshotBase64 = '';
+    const upiScreenshotInput = document.getElementById('upiScreenshot');
+    const screenshotDropZone = document.getElementById('screenshotDropZone');
+    const uploadStatusText = document.getElementById('uploadStatusText');
+    const screenshotPreview = document.getElementById('screenshotPreview');
+    const uploadPlaceholder = document.getElementById('uploadPlaceholder');
+
+    if (upiScreenshotInput && screenshotDropZone) {
+        upiScreenshotInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                if (file.size > 2 * 1024 * 1024) {
+                    showToast("⚠️ Image size exceeds 2MB limit.");
+                    upiScreenshotInput.value = '';
+                    return;
+                }
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    upiScreenshotBase64 = event.target.result;
+                    if (screenshotPreview) {
+                        screenshotPreview.src = upiScreenshotBase64;
+                        screenshotPreview.style.display = 'block';
+                    }
+                    if (uploadPlaceholder) {
+                        uploadPlaceholder.style.display = 'none';
+                    }
+                    if (uploadStatusText) {
+                        uploadStatusText.textContent = `Attached: ${file.name}`;
+                    }
+                    screenshotDropZone.classList.add('has-file');
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Click trigger
+        screenshotDropZone.addEventListener('click', () => {
+            upiScreenshotInput.click();
+        });
+
+        // Drag and drop event listeners
+        ['dragenter', 'dragover'].forEach(eventName => {
+            screenshotDropZone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                screenshotDropZone.classList.add('dragover');
+            }, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            screenshotDropZone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                screenshotDropZone.classList.remove('dragover');
+            }, false);
+        });
+
+        screenshotDropZone.addEventListener('drop', (e) => {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            if (files && files.length > 0) {
+                if (files[0].type.startsWith('image/')) {
+                    upiScreenshotInput.files = files;
+                    const event = new Event('change');
+                    upiScreenshotInput.dispatchEvent(event);
+                } else {
+                    showToast("⚠️ Only image files are accepted.");
+                }
+            }
+        });
+    }
+
+    // --------------------------------------------------------------------------
+    // Order Status Simulation & Timeline Rendering
+    // --------------------------------------------------------------------------
+    function getOrderStatus(order) {
+        if (order.statusOverride) return order.statusOverride;
+        
+        const elapsedMs = Date.now() - new Date(order.timestamp).getTime();
+        const elapsedMinutes = elapsedMs / (1000 * 60);
+        const isUpi = order.paymentMethod.includes('UPI');
+        
+        if (isUpi) {
+            if (elapsedMinutes < 1) return 'pending_verification';
+            if (elapsedMinutes < 2.5) return 'confirmed';
+            if (elapsedMinutes < 4.5) return 'processing';
+            return 'in_transit';
+        } else {
+            if (elapsedMinutes < 1.5) return 'confirmed';
+            if (elapsedMinutes < 3.5) return 'processing';
+            return 'in_transit';
+        }
+    }
+
+    function generateTrackingTimelineHTML(paymentMethod, status) {
+        const isUpi = paymentMethod.includes('UPI');
+        let steps = [];
+        
+        if (isUpi) {
+            steps = [
+                { id: 'pending_verification', title: 'Payment Verification Pending', desc: 'Confirming your UPI transaction screenshot.', colorClass: 'orange' },
+                { id: 'confirmed', title: 'Order Confirmed', desc: 'Payment verified; order is registered.', colorClass: 'green' },
+                { id: 'processing', title: 'Processing & Packing', desc: 'Apex gear is being sorted and prepared.', colorClass: 'green' },
+                { id: 'in_transit', title: 'In Transit', desc: 'Courier dispatch is executing delivery.', colorClass: 'green' }
+            ];
+        } else {
+            steps = [
+                { id: 'confirmed', title: 'Order Confirmed', desc: 'Your cash-on-delivery order is registered.', colorClass: 'green' },
+                { id: 'processing', title: 'Processing & Packing', desc: 'Apex gear is being sorted and prepared.', colorClass: 'green' },
+                { id: 'in_transit', title: 'In Transit', desc: 'Courier dispatch is executing delivery.', colorClass: 'green' }
+            ];
+        }
+        
+        let activeIndex = steps.findIndex(s => s.id === status);
+        if (activeIndex === -1) activeIndex = 0;
+        
+        let html = '';
+        steps.forEach((step, index) => {
+            const isLast = index === steps.length - 1;
+            let stepClass = 'pending';
+            let dotClass = '';
+            
+            if (index < activeIndex) {
+                stepClass = 'completed';
+                dotClass = 'completed';
+            } else if (index === activeIndex) {
+                stepClass = 'active';
+                dotClass = step.id === 'pending_verification' ? 'active-pulse-orange' : 'active-pulse-green';
+            }
+            
+            html += `
+                <div class="timeline-step ${stepClass}" style="display: flex; gap: 16px; margin-bottom: 20px; position: relative;">
+                    <div class="step-indicator" style="display: flex; flex-direction: column; align-items: center; position: relative; width: 24px;">
+                        <div class="step-dot ${dotClass}" style="width: 14px; height: 14px; border-radius: 50%; background: #2a3b32; transition: var(--transition-smooth); border: 2px solid rgba(16, 185, 129, 0.3); z-index: 2;"></div>
+                        ${!isLast ? `<div class="step-line" style="width: 2px; flex: 1; background: rgba(16, 185, 129, 0.15); margin-top: 4px; margin-bottom: 4px; min-height: 35px; z-index: 1;"></div>` : ''}
+                    </div>
+                    <div class="step-content" style="flex: 1; padding-bottom: 12px; text-align: left;">
+                        <h5 class="step-title" style="font-size: 0.95rem; font-family: var(--font-heading); font-weight: 600; margin-bottom: 2px; color: ${index <= activeIndex ? 'var(--color-text)' : 'var(--color-text-muted)'};">${step.title}</h5>
+                        <p class="step-desc" style="font-size: 0.8rem; color: var(--color-text-muted); line-height: 1.3;">${step.desc}</p>
+                    </div>
+                </div>
+            `;
+        });
+        return html;
+    }
+
+    // --------------------------------------------------------------------------
+    // Order Tracking Modal & Search Interaction
+    // --------------------------------------------------------------------------
+    const openTrackingModalBtn = document.getElementById('openTrackingModalBtn');
+    const trackingModalOverlay = document.getElementById('trackingModalOverlay');
+    const trackingModalCloseBtn = document.getElementById('trackingModalCloseBtn');
+    const trackingSearchInput = document.getElementById('trackingSearchInput');
+    const trackingSearchSubmitBtn = document.getElementById('trackingSearchSubmitBtn');
+    const trackingResultBox = document.getElementById('trackingResultBox');
+
+    if (openTrackingModalBtn && trackingModalOverlay) {
+        openTrackingModalBtn.addEventListener('click', () => {
+            cartDrawerOverlay.classList.remove('active');
+            if (trackingResultBox) {
+                trackingResultBox.style.display = 'none';
+                trackingResultBox.innerHTML = '';
+            }
+            if (trackingSearchInput) trackingSearchInput.value = '';
+            trackingModalOverlay.classList.add('active');
+        });
+    }
+
+    if (trackingModalCloseBtn && trackingModalOverlay) {
+        trackingModalCloseBtn.addEventListener('click', () => {
+            trackingModalOverlay.classList.remove('active');
+        });
+    }
+
+    if (trackingModalOverlay) {
+        trackingModalOverlay.addEventListener('click', (e) => {
+            if (e.target === trackingModalOverlay) {
+                trackingModalOverlay.classList.remove('active');
+            }
+        });
+    }
+
+    if (trackingSearchSubmitBtn) {
+        trackingSearchSubmitBtn.addEventListener('click', () => {
+            const query = trackingSearchInput.value.trim().toUpperCase();
+            if (!query) {
+                showToast("⚠️ Please enter a valid order reference number.");
+                return;
+            }
+            
+            const orders = JSON.parse(localStorage.getItem('apex_orders')) || [];
+            const matchedOrder = orders.find(o => o.orderNum === query);
+            
+            if (matchedOrder) {
+                const currentStatus = getOrderStatus(matchedOrder);
+                const timelineHTML = generateTrackingTimelineHTML(matchedOrder.paymentMethod, currentStatus);
+                
+                let screenshotThumbnailHTML = '';
+                if (matchedOrder.paymentMethod.includes('UPI') && matchedOrder.screenshot) {
+                    screenshotThumbnailHTML = `
+                        <div style="margin: 16px 0; padding: 12px; background: rgba(255,255,255,0.01); border: 1px solid var(--color-border); border-radius: 8px;">
+                            <span style="font-size: 0.85rem; color: var(--color-text-muted); display: block; margin-bottom: 6px;">Submitted Screenshot:</span>
+                            <img src="${matchedOrder.screenshot}" style="max-height: 100px; border-radius: 6px; border: 1px solid var(--color-border);" alt="Screenshot">
+                        </div>
+                    `;
+                }
+
+                let trackingWhatsAppBtnHTML = '';
+                if (matchedOrder.paymentMethod.includes('UPI') && currentStatus === 'pending_verification') {
+                    const waText = `Hello Apex FC! I am tracking my UPI order: ${matchedOrder.orderNum}. Please verify payment.`;
+                    const waUrl = `https://wa.me/919876543210?text=${encodeURIComponent(waText)}`;
+                    trackingWhatsAppBtnHTML = `
+                        <a href="${waUrl}" target="_blank" class="btn btn-whatsapp" style="display: flex; align-items: center; justify-content: center; gap: 8px; background-color: #25d366; color: white; border: none; font-weight: 600; width: 100%; padding: 10px; border-radius: 6px; margin-top: 10px; text-decoration: none; font-size: 0.85rem;">
+                            <span>💬</span> Notify Owner on WhatsApp
+                        </a>
+                    `;
+                }
+
+                trackingResultBox.innerHTML = `
+                    <div class="tracking-summary-card" style="background: rgba(16, 185, 129, 0.03); border: 1px solid var(--color-border); border-radius: 8px; padding: 16px; margin-bottom: 20px;">
+                        <h4 style="font-family: var(--font-heading); color: var(--color-accent); font-size: 1.1rem; margin-bottom: 8px;">Order Details</h4>
+                        <div style="display: flex; flex-direction: column; gap: 6px; font-size: 0.85rem;">
+                            <div><strong>Reference:</strong> ${matchedOrder.orderNum}</div>
+                            <div><strong>Customer Name:</strong> ${matchedOrder.name}</div>
+                            <div><strong>Payment Method:</strong> ${matchedOrder.paymentMethod}</div>
+                            <div><strong>Total:</strong> ₹${matchedOrder.total.toLocaleString('en-IN')}</div>
+                            <div><strong>Order Date:</strong> ${new Date(matchedOrder.timestamp).toLocaleString('en-IN')}</div>
+                        </div>
+                        ${screenshotThumbnailHTML}
+                    </div>
+                    
+                    <div class="tracking-timeline-card" style="background: rgba(255,255,255,0.01); border: 1px solid var(--color-border); border-radius: 8px; padding: 16px;">
+                        <h4 style="font-family: var(--font-heading); color: var(--color-text); font-size: 1rem; margin-bottom: 12px;">Live Timeline</h4>
+                        <div class="tracking-timeline">
+                            ${timelineHTML}
+                        </div>
+                        ${trackingWhatsAppBtnHTML}
+                    </div>
+                `;
+                trackingResultBox.style.display = 'block';
+            } else {
+                trackingResultBox.innerHTML = `
+                    <div style="text-align: center; padding: 20px; color: var(--color-text-muted); font-size: 0.9rem;">
+                        ❌ Order reference <strong>${query}</strong> not found. Please verify and try again.
+                    </div>
+                `;
+                trackingResultBox.style.display = 'block';
+            }
+        });
+    }
 
     if (checkoutModalCloseBtn) {
         checkoutModalCloseBtn.addEventListener('click', () => {
@@ -911,6 +1230,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const selectedPaymentValue = selectedPaymentInput ? selectedPaymentInput.value : 'cod';
             const paymentMethodLabel = selectedPaymentValue === 'upi' ? 'UPI Payment' : 'Cash on Delivery';
 
+            // Validate that UPI payments have screenshots attached
+            if (selectedPaymentValue === 'upi' && !upiScreenshotBase64) {
+                showToast("⚠️ Please upload the payment screenshot to proceed.");
+                return;
+            }
+
             // Extract customer & shipping info
             const orderDetails = {
                 name: document.getElementById('checkoutName').value,
@@ -924,6 +1249,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 orderNum: 'APEX-' + Math.floor(10000 + Math.random() * 90000),
                 total: cart.reduce((sum, item) => sum + (item.price * item.quantity), 0),
                 paymentMethod: paymentMethodLabel,
+                screenshot: selectedPaymentValue === 'upi' ? upiScreenshotBase64 : null,
                 timestamp: new Date().toISOString()
             };
 
@@ -936,6 +1262,27 @@ document.addEventListener('DOMContentLoaded', () => {
             if (receiptOrderNum) receiptOrderNum.textContent = orderDetails.orderNum;
             if (receiptPaymentMethod) receiptPaymentMethod.textContent = orderDetails.paymentMethod;
             if (receiptAmount) receiptAmount.textContent = `₹${orderDetails.total.toLocaleString('en-IN')}`;
+
+            // Toggle WhatsApp Notify Box and set dynamic pre-filled text
+            const upiNotificationBox = document.getElementById('upiNotificationBox');
+            if (upiNotificationBox) {
+                if (selectedPaymentValue === 'upi') {
+                    upiNotificationBox.style.display = 'block';
+                    const whatsappNotifyBtn = document.getElementById('whatsappNotifyBtn');
+                    if (whatsappNotifyBtn) {
+                        const whatsappText = `Hello Apex FC! I have placed an order.\nReference: ${orderDetails.orderNum}\nName: ${orderDetails.name}\nPhone: ${orderDetails.phone}\nPayment Method: UPI\nTotal: ₹${orderDetails.total.toLocaleString('en-IN')}\n\nPlease verify my attached screenshot to confirm.`;
+                        whatsappNotifyBtn.href = `https://wa.me/919876543210?text=${encodeURIComponent(whatsappText)}`;
+                    }
+                } else {
+                    upiNotificationBox.style.display = 'none';
+                }
+            }
+
+            // Populate Success Order Tracking Timeline
+            const receiptTrackingTimeline = document.getElementById('receiptTrackingTimeline');
+            if (receiptTrackingTimeline) {
+                receiptTrackingTimeline.innerHTML = generateTrackingTimelineHTML(orderDetails.paymentMethod, getOrderStatus(orderDetails));
+            }
 
             // Reset cart
             cart = [];
