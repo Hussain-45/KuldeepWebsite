@@ -398,4 +398,78 @@ document.addEventListener('DOMContentLoaded', () => {
     }, scrollspyObserverOptions);
 
     sections.forEach(section => scrollspyObserver.observe(section));
+
+    // ==========================================================================
+    // 11. Add to Cart Toast Notifications
+    // ==========================================================================
+    const addToCartBtns = document.querySelectorAll('.add-to-cart-btn');
+    addToCartBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const itemName = btn.getAttribute('data-item') || 'Item';
+            showToast(`Success! Added ${itemName} to your cart.`);
+        });
+    });
+
+    // ==========================================================================
+    // 12. Academy Locations Map Switcher
+    // ==========================================================================
+    const locationCards = document.querySelectorAll('.location-hub-card');
+    const mapIframe = document.getElementById('mapIframe');
+    const facilityAmenities = document.getElementById('facilityAmenities');
+
+    const locationData = {
+        delhi: {
+            mapUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3503.4475459397984!2d77.05436667630743!3d28.58632617569116!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d1ad33e387063%3A0xe96c42954a29a1e0!2sDwarka%20Sector%2011%20Sports%20Complex!5e0!3m2!1sen!2sin!4v1719149000000!5m2!1sen!2sin",
+            amenities: `
+                <li>⚽ <strong>Pitch Type:</strong> FIFA-pro Grade Artificial Turf</li>
+                <li>⚽ <strong>Head Coach:</strong> Coach Marcus Vance</li>
+                <li>⚽ <strong>Facilities:</strong> Indoor Changing, Video Analysis Suite, GPS Trackers</li>
+                <li>⚽ <strong>Phone:</strong> +91 98765 43210</li>
+            `
+        },
+        mumbai: {
+            mapUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3770.793738090729!2d72.8687707760773!3d19.072803252062325!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c8e14b2d6a59%3A0x2f90ef762d08a54d!2sBandra%20Kurla%20Complex%20Sports%20Ground!5e0!3m2!1sen!2sin!4v1719149100000!5m2!1sen!2sin",
+            amenities: `
+                <li>⚽ <strong>Pitch Type:</strong> Hybrid Natural Turf</li>
+                <li>⚽ <strong>Head Coach:</strong> Coach Sarah Jenkins</li>
+                <li>⚽ <strong>Facilities:</strong> Recovery Pool, S&C Gym, Physio Center</li>
+                <li>⚽ <strong>Phone:</strong> +91 98765 43211</li>
+            `
+        },
+        bengaluru: {
+            mapUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3887.973950454359!2d77.5912852762283!3d12.973507014838634!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae1679d63f5383%3A0x6b1464c05e19dc2f!2sSree%20Kanteerava%20Stadium!5e0!3m2!1sen!2sin!4v1719149200000!5m2!1sen!2sin",
+            amenities: `
+                <li>⚽ <strong>Pitch Type:</strong> Professional Turf (Natural Grass)</li>
+                <li>⚽ <strong>Head Coach:</strong> Coach Alex Mercer</li>
+                <li>⚽ <strong>Facilities:</strong> Floodlit Arena, Medical Suite, Tactical Board Room</li>
+                <li>⚽ <strong>Phone:</strong> +91 98765 43212</li>
+            `
+        }
+    };
+
+    locationCards.forEach(card => {
+        card.addEventListener('click', () => {
+            const locKey = card.getAttribute('data-location');
+            if (locationData[locKey]) {
+                // Remove active class from all cards
+                locationCards.forEach(c => c.classList.remove('active'));
+                // Add active class to clicked card
+                card.classList.add('active');
+
+                // Update map URL
+                if (mapIframe) {
+                    mapIframe.src = locationData[locKey].mapUrl;
+                }
+
+                // Update amenities with fade transition effect
+                if (facilityAmenities) {
+                    facilityAmenities.style.opacity = 0;
+                    setTimeout(() => {
+                        facilityAmenities.innerHTML = locationData[locKey].amenities;
+                        facilityAmenities.style.opacity = 1;
+                    }, 200);
+                }
+            }
+        });
+    });
 });

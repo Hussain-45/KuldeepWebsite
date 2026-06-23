@@ -1386,6 +1386,351 @@ h1, h2, h3, h4 {
 }
 
 /* ==========================================================================
+   Achievements & Youth Leagues Section
+   ========================================================================== */
+.achievements-section {
+    padding: 100px 0;
+    background-color: var(--bg-secondary);
+}
+
+.achievements-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 32px;
+}
+
+.achievement-card {
+    background: var(--bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    padding: 32px;
+}
+
+.achievement-card-title {
+    font-size: 1.5rem;
+    margin-bottom: 4px;
+}
+
+.league-sub {
+    font-size: 0.85rem;
+    color: var(--color-accent);
+    display: block;
+    margin-bottom: 24px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+.league-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 0.95rem;
+}
+
+.league-table th {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    border-bottom: 2px solid var(--color-border);
+    padding: 12px 16px;
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+}
+
+.league-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid rgba(16, 185, 129, 0.05);
+}
+
+.league-table tr:hover td {
+    background-color: rgba(16, 185, 129, 0.03);
+}
+
+.league-table tr.highlight-row td {
+    background-color: rgba(57, 255, 20, 0.06);
+    color: var(--color-accent);
+    font-weight: 600;
+}
+
+.team-name {
+    font-weight: 500;
+}
+
+.achievements-highlights-column {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.highlight-item {
+    background: var(--bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    padding: 24px;
+    transition: var(--transition-smooth);
+}
+
+.highlight-item:hover {
+    transform: translateY(-4px);
+    border-color: var(--color-accent);
+    box-shadow: var(--shadow-glow);
+}
+
+.highlight-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    background-color: rgba(16, 185, 129, 0.1);
+    color: var(--color-primary);
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 12px;
+}
+
+.highlight-title {
+    font-size: 1.15rem;
+    margin-bottom: 8px;
+    color: var(--color-text);
+}
+
+.highlight-desc {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+}
+
+/* ==========================================================================
+   Kit & Merchandise Store Section
+   ========================================================================== */
+.store-section {
+    padding: 100px 0;
+    background-color: var(--bg-primary);
+}
+
+.store-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+}
+
+.product-card {
+    background: var(--bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: var(--transition-smooth);
+}
+
+.product-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--color-accent);
+    box-shadow: var(--shadow-glow);
+}
+
+.product-img-wrapper {
+    height: 250px;
+    position: relative;
+    background-color: rgba(16, 185, 129, 0.02);
+    overflow: hidden;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.product-img {
+    width: 100%;
+    height: 100% !important;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.product-card:hover .product-img {
+    transform: scale(1.08);
+}
+
+.product-tag {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background-color: var(--color-accent);
+    color: #022c0b;
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    z-index: 4;
+}
+
+.product-info {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.product-name {
+    font-size: 1.15rem;
+    margin-bottom: 8px;
+    line-height: 1.3;
+}
+
+.product-desc {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    margin-bottom: 24px;
+    flex-grow: 1;
+}
+
+.product-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: auto;
+}
+
+.product-price {
+    font-family: var(--font-heading);
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--color-text);
+}
+
+.add-to-cart-btn {
+    padding: 8px 16px;
+    font-size: 0.85rem;
+}
+
+/* ==========================================================================
+   Academy Locations Map Section
+   ========================================================================== */
+.locations-section {
+    padding: 100px 0;
+    background-color: var(--bg-secondary);
+}
+
+.locations-grid {
+    display: grid;
+    grid-template-columns: 0.8fr 1.2fr;
+    gap: 32px;
+}
+
+.locations-list-column {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.location-hub-card {
+    background: var(--bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.location-hub-card:hover,
+.location-hub-card.active {
+    border-color: var(--color-accent);
+    box-shadow: var(--shadow-glow);
+    background-color: rgba(16, 185, 129, 0.03);
+}
+
+.location-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: var(--color-border);
+    flex-shrink: 0;
+    transition: var(--transition-smooth);
+}
+
+.location-hub-card.active .location-dot {
+    background-color: var(--color-accent);
+    box-shadow: 0 0 10px var(--color-accent);
+}
+
+.location-hub-info {
+    text-align: left;
+}
+
+.location-hub-name {
+    font-size: 1.15rem;
+    margin-bottom: 6px;
+    color: var(--color-text);
+}
+
+.location-hub-address {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    line-height: 1.4;
+}
+
+.map-display-container {
+    background: var(--bg-glass);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+    display: grid;
+    grid-template-rows: auto 1fr;
+    height: 450px;
+    position: relative;
+}
+
+.facility-details-card {
+    background: rgba(12, 21, 17, 0.85);
+    border-bottom: 1px solid var(--color-border);
+    padding: 20px 24px;
+    z-index: 5;
+}
+
+.facility-details-card > * {
+    transform: none !important; /* Prevent 3d shift issues */
+}
+
+.facility-title {
+    font-size: 1rem;
+    margin-bottom: 8px;
+    color: var(--color-accent);
+    letter-spacing: 0.05em;
+}
+
+.facility-amenities {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px 20px;
+    font-size: 0.85rem;
+    text-align: left;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.facility-amenities li {
+    color: var(--color-text-muted);
+}
+
+.facility-amenities strong {
+    color: var(--color-text);
+}
+
+.map-iframe-wrapper {
+    width: 100%;
+    height: 100%;
+}
+
+/* ==========================================================================
    Responsive Breakpoints & Media Queries
    ========================================================================== */
 @media (max-width: 1024px) {
@@ -1399,8 +1744,17 @@ h1, h2, h3, h4 {
 @media (max-width: 900px) {
     .philosophy-grid,
     .programs-grid,
-    .coaches-grid {
+    .coaches-grid,
+    .achievements-grid,
+    .locations-grid {
         grid-template-columns: 1fr;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+    
+    .store-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
         max-width: 500px;
         margin: 0 auto;
     }
@@ -1553,8 +1907,14 @@ h1, h2, h3, h4 {
 }
 
 @media (max-width: 480px) {
-    .stats-grid {
+    .stats-grid,
+    .store-grid {
         grid-template-columns: 1fr;
+    }
+    
+    .facility-amenities {
+        grid-template-columns: 1fr;
+        gap: 6px;
     }
     
     .modal-container {
