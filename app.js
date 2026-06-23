@@ -30,11 +30,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Close menu when links are clicked
-    navLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            navMenu.classList.remove('active');
-            header.classList.remove('nav-active');
+    // Close menu when links or logo are clicked
+    const closeTriggers = document.querySelectorAll('.nav-link, .logo');
+    closeTriggers.forEach(trigger => {
+        trigger.addEventListener('click', () => {
+            if (navMenu) navMenu.classList.remove('active');
+            if (header) header.classList.remove('nav-active');
             document.body.classList.remove('no-scroll');
         });
     });
@@ -249,6 +250,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if (programName && programSelect) {
                 programSelect.value = programName;
             }
+
+            // Close mobile menu if open
+            if (navMenu) navMenu.classList.remove('active');
+            if (header) header.classList.remove('nav-active');
         }
     }
 
@@ -294,15 +299,23 @@ document.addEventListener('DOMContentLoaded', () => {
         bookingForm.addEventListener('submit', (e) => {
             e.preventDefault();
 
-            // Fetch registration info
+            // Fetch registration info safely
+            const playerNameEl = document.getElementById('playerName');
+            const playerAgeEl = document.getElementById('playerAge');
+            const programSelectEl = document.getElementById('programSelect');
+            const parentNameEl = document.getElementById('parentName');
+            const parentPhoneEl = document.getElementById('parentPhone');
+            const parentEmailEl = document.getElementById('parentEmail');
+            const preferredDateEl = document.getElementById('preferredDate');
+
             const playerDetails = {
-                playerName: document.getElementById('playerName').value,
-                playerAge: document.getElementById('playerAge').value,
-                program: document.getElementById('programSelect').value,
-                parentName: document.getElementById('parentName').value,
-                phone: document.getElementById('parentPhone').value,
-                email: document.getElementById('parentEmail').value,
-                preferredDate: document.getElementById('preferredDate').value,
+                playerName: playerNameEl ? playerNameEl.value : '',
+                playerAge: playerAgeEl ? playerAgeEl.value : '',
+                program: programSelectEl ? programSelectEl.value : '',
+                parentName: parentNameEl ? parentNameEl.value : '',
+                phone: parentPhoneEl ? parentPhoneEl.value : '',
+                email: parentEmailEl ? parentEmailEl.value : '',
+                preferredDate: preferredDateEl ? preferredDateEl.value : '',
                 timestamp: new Date().toISOString()
             };
 
@@ -377,53 +390,58 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================================================
     const currentPath = window.location.pathname;
     const pageName = currentPath.split('/').pop() || 'index.html';
-    
-    // Resolve active state based on current page
-    navLinks.forEach(link => {
-        const linkHref = link.getAttribute('href');
-        if (linkHref === pageName) {
-            link.classList.add('active');
-        } else if (pageName === 'index.html' && linkHref.startsWith('#')) {
-            // Handled by scrollspy below
-        } else if (linkHref.includes(pageName)) {
-            // Check if pageName matches the page in the link (e.g. programs.html#schedule on programs.html)
-            if (linkHref.includes('#')) {
-                const hash = linkHref.split('#')[1];
-                if (window.location.hash === '#' + hash) {
-                    link.classList.add('active');
-                } else {
-                    link.classList.remove('active');
-                }
-            } else if (!window.location.hash) {
-                link.classList.add('active');
-            } else {
-                link.classList.remove('active');
-            }
-        } else {
-            link.classList.remove('active');
-        }
-    });
 
-    // Listen to hash changes (e.g., when clicking Schedule link on programs.html)
-    window.addEventListener('hashchange', () => {
+    // Resolve active state based on current page and hash
+    function updateActiveNavLink() {
+        const currentHash = window.location.hash;
+
         navLinks.forEach(link => {
             const linkHref = link.getAttribute('href');
-            if (linkHref.includes(pageName)) {
-                if (linkHref.includes('#')) {
-                    const hash = linkHref.split('#')[1];
-                    if (window.location.hash === '#' + hash) {
+            if (!linkHref) return;
+
+            // Separate page from hash
+            const [linkPage, linkHash] = linkHref.split('#');
+            const cleanLinkPage = linkPage || 'index.html';
+
+            const isSamePage = (cleanLinkPage === pageName || 
+                                (pageName === 'index.html' && cleanLinkPage === '') ||
+                                (pageName === '' && cleanLinkPage === 'index.html'));
+
+            if (isSamePage) {
+                if (linkHash) {
+                    // This is an anchor link on the current page
+                    if (currentHash === '#' + linkHash) {
                         link.classList.add('active');
                     } else {
                         link.classList.remove('active');
                     }
-                } else if (!window.location.hash) {
-                    link.classList.add('active');
+                } else {
+                    // This is the page link itself
+                    if (!currentHash || currentHash === '#') {
+                        link.classList.add('active');
+                    } else {
+                        link.classList.remove('active');
+                    }
+                }
+            } else {
+                // Different page
+                // Check if link is to an anchor on the index page while we are on index page
+                if (linkHash && cleanLinkPage === 'index.html' && pageName === 'index.html') {
+                    if (currentHash === '#' + linkHash) {
+                        link.classList.add('active');
+                    } else {
+                        link.classList.remove('active');
+                    }
                 } else {
                     link.classList.remove('active');
                 }
             }
         });
-    });
+    }
+
+    // Run active link updates
+    updateActiveNavLink();
+    window.addEventListener('hashchange', updateActiveNavLink);
 
     // Only run scrollspy on the home page (index.html or root path)
     if (pageName === 'index.html' || pageName === '') {
