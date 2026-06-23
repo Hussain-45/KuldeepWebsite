@@ -479,15 +479,427 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==========================================================================
-    // 11. Add to Cart Toast Notifications
+    // 11. Shopping Cart & Checkout System
     // ==========================================================================
+    // Inject Cart Drawer and Modal Overlays dynamically to ensure presence on all pages
+    const cartDrawerHTML = `
+        <!-- Cart Drawer Overlay -->
+        <div class="cart-drawer-overlay" id="cartDrawerOverlay">
+            <div class="cart-drawer" id="cartDrawer">
+                <div class="cart-drawer-header">
+                    <h3>Shopping Cart</h3>
+                    <button class="cart-close-btn" id="cartCloseBtn" aria-label="Close Cart">&times;</button>
+                </div>
+                <div class="cart-drawer-body" id="cartDrawerBody">
+                    <!-- Cart items loaded dynamically -->
+                </div>
+                <div class="cart-drawer-footer" id="cartDrawerFooter">
+                    <div class="cart-total-row">
+                        <span>Subtotal:</span>
+                        <span id="cartSubtotal">₹0</span>
+                    </div>
+                    <button class="btn btn-primary btn-full checkout-btn" id="checkoutBtn">Proceed to Checkout</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Checkout Form Modal Overlay -->
+        <div class="modal-overlay" id="checkoutModalOverlay">
+            <div class="modal-container checkout-modal-container">
+                <button class="modal-close-btn" id="checkoutModalCloseBtn" aria-label="Close Checkout">&times;</button>
+                <div class="modal-header">
+                    <h3 class="modal-title highlight">Complete Purchase</h3>
+                    <p class="modal-subtitle">Enter your billing and shipping details to complete your order</p>
+                </div>
+                <form id="checkoutForm" class="modal-form">
+                    <div class="modal-form-columns">
+                        <div class="modal-form-column customer-info-column">
+                            <h4 class="column-subtitle">Customer Information</h4>
+                            <div class="form-group">
+                                <label for="checkoutName">Full Name</label>
+                                <input type="text" id="checkoutName" placeholder="Enter your full name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="checkoutEmail">Email Address</label>
+                                <input type="email" id="checkoutEmail" placeholder="you@example.com" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="checkoutPhone">Phone Number</label>
+                                <input type="tel" id="checkoutPhone" placeholder="Enter phone number" required>
+                            </div>
+                        </div>
+                        <div class="modal-form-column shipping-info-column">
+                            <h4 class="column-subtitle">Shipping Address</h4>
+                            <div class="form-group">
+                                <label for="checkoutAddress">Street Address</label>
+                                <input type="text" id="checkoutAddress" placeholder="123 Main St, Apt 4B" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="checkoutCity">City</label>
+                                <input type="text" id="checkoutCity" placeholder="New Delhi" required>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group half-width">
+                                    <label for="checkoutState">State</label>
+                                    <input type="text" id="checkoutState" placeholder="Delhi" required>
+                                </div>
+                                <div class="form-group half-width">
+                                    <label for="checkoutZip">ZIP Code</label>
+                                    <input type="text" id="checkoutZip" placeholder="110001" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="order-summary-panel">
+                        <h4 class="column-subtitle">Order Summary</h4>
+                        <div class="checkout-summary-items" id="checkoutSummaryItems">
+                            <!-- Items loaded dynamically -->
+                        </div>
+                        <div class="checkout-summary-total">
+                            <span>Total (incl. taxes):</span>
+                            <span id="checkoutGrandTotal" class="highlight">₹0</span>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-full pulse-glow form-submit">Complete Purchase & Order ➔</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Success Modal Overlay -->
+        <div class="modal-overlay" id="successModalOverlay">
+            <div class="modal-container success-modal-container text-center">
+                <button class="modal-close-btn" id="successModalCloseBtn" aria-label="Close Modal">&times;</button>
+                <div class="success-icon">🎉</div>
+                <h3 class="modal-title highlight">Order Placed Successfully!</h3>
+                <p class="modal-subtitle">Your official Apex FC gear is registered and on its way.</p>
+                <div class="receipt-box">
+                    <div class="receipt-row">
+                        <span>Order Reference:</span>
+                        <strong id="receiptOrderNum">APEX-10001</strong>
+                    </div>
+                    <div class="receipt-row">
+                        <span>Total Paid:</span>
+                        <strong id="receiptAmount" class="highlight">₹0</strong>
+                    </div>
+                    <div class="receipt-row">
+                        <span>Delivery Estimate:</span>
+                        <strong>3-5 Business Days</strong>
+                    </div>
+                </div>
+                <button class="btn btn-primary" id="successCloseBtn">Continue Shopping</button>
+            </div>
+        </div>
+    `;
+    document.body.insertAdjacentHTML('beforeend', cartDrawerHTML);
+
+    // Product Database mapping data-item in HTML to full product info
+    const productDatabase = {
+        "Apex Home Jersey": { name: "Apex FC Home Match Jersey", price: 1499, image: "images/product_home_jersey.png" },
+        "Apex Away Jersey": { name: "Apex FC Away Match Jersey", price: 1499, image: "images/product_away_jersey.png" },
+        "Apex Training Jacket": { name: "Apex Elite Training Jacket", price: 2499, image: "images/product_training_jacket.png" },
+        "Apex Training Kit Set": { name: "Apex Pro Training Kit Set", price: 2999, image: "images/product_training_kit.png" }
+    };
+
+    // State
+    let cart = JSON.parse(localStorage.getItem('apex_cart')) || [];
+
+    // DOM Elements
+    const cartBtn = document.getElementById('cartBtn');
+    const cartCount = document.getElementById('cartCount');
+    const cartDrawerOverlay = document.getElementById('cartDrawerOverlay');
+    const cartDrawerBody = document.getElementById('cartDrawerBody');
+    const cartSubtotal = document.getElementById('cartSubtotal');
+    const cartCloseBtn = document.getElementById('cartCloseBtn');
+    const checkoutBtn = document.getElementById('checkoutBtn');
+    const cartDrawerFooter = document.getElementById('cartDrawerFooter');
+
+    const checkoutModalOverlay = document.getElementById('checkoutModalOverlay');
+    const checkoutModalCloseBtn = document.getElementById('checkoutModalCloseBtn');
+    const checkoutForm = document.getElementById('checkoutForm');
+    const checkoutSummaryItems = document.getElementById('checkoutSummaryItems');
+    const checkoutGrandTotal = document.getElementById('checkoutGrandTotal');
+
+    const successModalOverlay = document.getElementById('successModalOverlay');
+    const successModalCloseBtn = document.getElementById('successModalCloseBtn');
+    const successCloseBtn = document.getElementById('successCloseBtn');
+    const receiptOrderNum = document.getElementById('receiptOrderNum');
+    const receiptAmount = document.getElementById('receiptAmount');
+
+    // Load initial cart display
+    updateCartUI();
+
+    // Toggle Cart Drawer
+    if (cartBtn) {
+        cartBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (navMenu) navMenu.classList.remove('active');
+            if (header) header.classList.remove('nav-active');
+            document.body.classList.remove('no-scroll');
+            cartDrawerOverlay.classList.add('active');
+        });
+    }
+
+    if (cartCloseBtn) {
+        cartCloseBtn.addEventListener('click', () => {
+            cartDrawerOverlay.classList.remove('active');
+        });
+    }
+
+    if (cartDrawerOverlay) {
+        cartDrawerOverlay.addEventListener('click', (e) => {
+            if (e.target === cartDrawerOverlay) {
+                cartDrawerOverlay.classList.remove('active');
+            }
+        });
+    }
+
+    // Add to Cart Logic
     const addToCartBtns = document.querySelectorAll('.add-to-cart-btn');
     addToCartBtns.forEach(btn => {
         btn.addEventListener('click', () => {
-            const itemName = btn.getAttribute('data-item') || 'Item';
-            showToast(`Success! Added ${itemName} to your cart.`);
+            const dataItem = btn.getAttribute('data-item');
+            const product = productDatabase[dataItem];
+            
+            if (product) {
+                addToCart(dataItem, product);
+            } else {
+                // Fallback for custom or missing product mappings
+                const fallbackProduct = {
+                    name: btn.closest('.product-info')?.querySelector('.product-name')?.textContent || dataItem || 'Official Gear',
+                    price: parseInt(btn.closest('.product-info')?.querySelector('.product-price')?.textContent.replace(/[^0-9]/g, '')) || 999,
+                    image: btn.closest('.product-card')?.querySelector('.product-img')?.getAttribute('src') || 'images/logo.png'
+                };
+                addToCart(dataItem || fallbackProduct.name, fallbackProduct);
+            }
         });
     });
+
+    function addToCart(id, product) {
+        const existingItem = cart.find(item => item.id === id);
+        
+        if (existingItem) {
+            existingItem.quantity += 1;
+        } else {
+            cart.push({
+                id: id,
+                name: product.name,
+                price: product.price,
+                image: product.image,
+                quantity: 1
+            });
+        }
+        
+        localStorage.setItem('apex_cart', JSON.stringify(cart));
+        updateCartUI();
+        showToast(`Success! Added ${product.name} to your cart.`);
+        
+        // Micro-animation badge pop
+        if (cartCount) {
+            cartCount.style.transform = 'scale(1.4)';
+            setTimeout(() => {
+                cartCount.style.transform = 'scale(1)';
+            }, 300);
+        }
+    }
+
+    // Qty and Remove Handlers
+    if (cartDrawerBody) {
+        cartDrawerBody.addEventListener('click', (e) => {
+            const id = e.target.getAttribute('data-id');
+            if (!id) return;
+
+            if (e.target.classList.contains('qty-plus')) {
+                updateQuantity(id, 1);
+            } else if (e.target.classList.contains('qty-minus')) {
+                updateQuantity(id, -1);
+            } else if (e.target.classList.contains('cart-item-remove')) {
+                removeFromCart(id);
+            }
+        });
+    }
+
+    function updateQuantity(id, change) {
+        const item = cart.find(item => item.id === id);
+        if (!item) return;
+
+        item.quantity += change;
+        if (item.quantity <= 0) {
+            cart = cart.filter(item => item.id !== id);
+        }
+
+        localStorage.setItem('apex_cart', JSON.stringify(cart));
+        updateCartUI();
+    }
+
+    function removeFromCart(id) {
+        const item = cart.find(item => item.id === id);
+        const name = item ? item.name : 'Item';
+        
+        cart = cart.filter(item => item.id !== id);
+        localStorage.setItem('apex_cart', JSON.stringify(cart));
+        updateCartUI();
+        showToast(`Removed ${name} from your cart.`);
+    }
+
+    function updateCartUI() {
+        if (!cartDrawerBody) return;
+
+        if (cart.length === 0) {
+            cartDrawerBody.innerHTML = `
+                <div class="cart-empty-message">
+                    <span class="cart-empty-icon">🛒</span>
+                    <h4>Your Cart is Empty</h4>
+                    <p>Gear up! Visit our store page to browse official academy apparel and training kit sets.</p>
+                </div>
+            `;
+            if (cartDrawerFooter) cartDrawerFooter.style.display = 'none';
+            if (cartCount) {
+                cartCount.textContent = '0';
+                cartCount.style.display = 'none';
+            }
+        } else {
+            let total = 0;
+            let count = 0;
+            let itemsHTML = '';
+
+            cart.forEach(item => {
+                const sub = item.price * item.quantity;
+                total += sub;
+                count += item.quantity;
+
+                itemsHTML += `
+                    <div class="cart-item">
+                        <img src="${item.image}" alt="${item.name}" class="cart-item-img" onerror="this.src='images/stadium_hero.png';">
+                        <div class="cart-item-details">
+                            <h4 class="cart-item-name">${item.name}</h4>
+                            <div class="cart-item-price">₹${item.price.toLocaleString('en-IN')}</div>
+                            <div class="cart-item-qty">
+                                <button class="qty-btn qty-minus" data-id="${item.id}">-</button>
+                                <span class="cart-item-qty-val">${item.quantity}</span>
+                                <button class="qty-btn qty-plus" data-id="${item.id}">+</button>
+                            </div>
+                        </div>
+                        <button class="cart-item-remove" data-id="${item.id}">Remove</button>
+                    </div>
+                `;
+            });
+
+            cartDrawerBody.innerHTML = itemsHTML;
+            if (cartDrawerFooter) cartDrawerFooter.style.display = 'block';
+            if (cartSubtotal) cartSubtotal.textContent = `₹${total.toLocaleString('en-IN')}`;
+            if (cartCount) {
+                cartCount.textContent = count;
+                cartCount.style.display = 'inline-flex';
+            }
+        }
+    }
+
+    // Checkout Modal Trigger
+    if (checkoutBtn) {
+        checkoutBtn.addEventListener('click', () => {
+            cartDrawerOverlay.classList.remove('active');
+            
+            // Build summary
+            if (checkoutSummaryItems) {
+                let summaryHTML = '';
+                let total = 0;
+                
+                cart.forEach(item => {
+                    total += item.price * item.quantity;
+                    summaryHTML += `
+                        <div class="checkout-summary-item">
+                            <span>${item.name} (x${item.quantity})</span>
+                            <span>₹${(item.price * item.quantity).toLocaleString('en-IN')}</span>
+                        </div>
+                    `;
+                });
+                
+                checkoutSummaryItems.innerHTML = summaryHTML;
+                if (checkoutGrandTotal) checkoutGrandTotal.textContent = `₹${total.toLocaleString('en-IN')}`;
+            }
+            
+            checkoutModalOverlay.classList.add('active');
+        });
+    }
+
+    if (checkoutModalCloseBtn) {
+        checkoutModalCloseBtn.addEventListener('click', () => {
+            checkoutModalOverlay.classList.remove('active');
+        });
+    }
+
+    if (checkoutModalOverlay) {
+        checkoutModalOverlay.addEventListener('click', (e) => {
+            if (e.target === checkoutModalOverlay) {
+                checkoutModalOverlay.classList.remove('active');
+            }
+        });
+    }
+
+    // Checkout Form Submission
+    if (checkoutForm) {
+        checkoutForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            // Extract customer & shipping info
+            const orderDetails = {
+                name: document.getElementById('checkoutName').value,
+                email: document.getElementById('checkoutEmail').value,
+                phone: document.getElementById('checkoutPhone').value,
+                address: document.getElementById('checkoutAddress').value,
+                city: document.getElementById('checkoutCity').value,
+                state: document.getElementById('checkoutState').value,
+                zip: document.getElementById('checkoutZip').value,
+                items: [...cart],
+                orderNum: 'APEX-' + Math.floor(10000 + Math.random() * 90000),
+                total: cart.reduce((sum, item) => sum + (item.price * item.quantity), 0),
+                timestamp: new Date().toISOString()
+            };
+
+            // Save order to history in local storage
+            const orders = JSON.parse(localStorage.getItem('apex_orders')) || [];
+            orders.push(orderDetails);
+            localStorage.setItem('apex_orders', JSON.stringify(orders));
+
+            // Populate Success screen
+            if (receiptOrderNum) receiptOrderNum.textContent = orderDetails.orderNum;
+            if (receiptAmount) receiptAmount.textContent = `₹${orderDetails.total.toLocaleString('en-IN')}`;
+
+            // Reset cart
+            cart = [];
+            localStorage.removeItem('apex_cart');
+            updateCartUI();
+
+            // Close checkout, open success
+            checkoutModalOverlay.classList.remove('active');
+            successModalOverlay.classList.add('active');
+
+            showToast("Order placed successfully! Receipt generated.");
+        });
+    }
+
+    // Success Modal Close
+    if (successModalCloseBtn) {
+        successModalCloseBtn.addEventListener('click', () => {
+            successModalOverlay.classList.remove('active');
+        });
+    }
+
+    if (successCloseBtn) {
+        successCloseBtn.addEventListener('click', () => {
+            successModalOverlay.classList.remove('active');
+        });
+    }
+
+    if (successModalOverlay) {
+        successModalOverlay.addEventListener('click', (e) => {
+            if (e.target === successModalOverlay) {
+                successModalOverlay.classList.remove('active');
+            }
+        });
+    }
 
     // ==========================================================================
     // 12. Academy Locations Map Switcher
