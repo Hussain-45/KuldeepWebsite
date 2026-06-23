@@ -2335,3 +2335,45 @@ h1, h2, h3, h4 {
         font-size: 0.85rem;
     }
 }
+
+/* Back to Home Button Style */
+.back-home-container {
+    padding-top: 24px;
+    padding-bottom: 8px;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.back-home-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: none;
+    padding: 8px 18px;
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background-color: rgba(255, 255, 255, 0.02);
+    transition: var(--transition-smooth);
+    backdrop-filter: blur(10px);
+}
+
+.back-home-btn .arrow {
+    font-size: 1.1rem;
+    line-height: 1;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.back-home-btn:hover {
+    color: var(--color-accent);
+    border-color: rgba(57, 255, 20, 0.35);
+    background-color: rgba(57, 255, 20, 0.08);
+    box-shadow: 0 0 15px rgba(57, 255, 20, 0.15);
+}
+
+.back-home-btn:hover .arrow {
+    transform: translateX(-4px);
+}
+
