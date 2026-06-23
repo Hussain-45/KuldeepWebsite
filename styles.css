@@ -323,16 +323,16 @@ h1, h2, h3, h4 {
 .nav-menu {
     display: flex;
     align-items: center;
-    gap: 32px;
+    gap: 20px;
 }
 
 .nav-menu ul {
     display: flex;
-    gap: 28px;
+    gap: 18px;
 }
 
 .nav-link {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     font-weight: 500;
     color: var(--color-text-muted);
     position: relative;
@@ -359,7 +359,8 @@ h1, h2, h3, h4 {
 }
 
 .nav-link.active {
-    color: var(--color-text);
+    color: var(--color-accent);
+    font-weight: 600;
 }
 
 .nav-link.active::after {
@@ -2312,5 +2313,25 @@ h1, h2, h3, h4 {
     
     .step-num {
         margin-bottom: 0;
+    }
+}
+
+/* Tablet / Small Laptop Navbar Optimization to prevent crowding */
+@media (min-width: 769px) and (max-width: 1150px) {
+    .nav-container {
+        padding: 16px 16px;
+    }
+    .nav-menu {
+        gap: 16px;
+    }
+    .nav-menu ul {
+        gap: 14px;
+    }
+    .nav-link {
+        font-size: 0.85rem;
+    }
+    .nav-cta {
+        padding: 10px 18px;
+        font-size: 0.85rem;
     }
 }

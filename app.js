@@ -446,6 +446,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (activeLink) {
                         navLinks.forEach(link => link.classList.remove('active'));
                         activeLink.classList.add('active');
+                    } else if (['hero', 'why-apex', 'pathway', 'news'].includes(id)) {
+                        const homeLink = document.querySelector('.nav-link[href="index.html"]');
+                        if (homeLink) {
+                            navLinks.forEach(link => link.classList.remove('active'));
+                            homeLink.classList.add('active');
+                        }
                     }
                 }
             });
