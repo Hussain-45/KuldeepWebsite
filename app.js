@@ -527,4 +527,134 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+    // ==========================================================================
+    // 13. Player Journey Pathway (Roadmap) Interaction
+    // ==========================================================================
+    const pathwaySteps = document.querySelectorAll('.pathway-step');
+    const stageContents = document.querySelectorAll('.pathway-stage-content');
+
+    pathwaySteps.forEach(step => {
+        step.addEventListener('click', () => {
+            const targetStage = step.getAttribute('data-stage');
+            
+            // Remove active class from all steps
+            pathwaySteps.forEach(s => s.classList.remove('active'));
+            // Add active class to clicked step
+            step.classList.add('active');
+
+            // Hide all content blocks
+            stageContents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Show selected content block
+            const targetContent = document.getElementById(`stage-${targetStage}`);
+            if (targetContent) {
+                targetContent.classList.add('active');
+            }
+        });
+    });
+
+    // ==========================================================================
+    // 14. Program Finder Quiz Tool
+    // ==========================================================================
+    const finderAgeSlider = document.getElementById('finderAge');
+    const finderAgeVal = document.getElementById('finderAgeVal');
+    const finderForm = document.getElementById('finderForm');
+    const finderResult = document.getElementById('finderResult');
+
+    // Update age display in real-time
+    if (finderAgeSlider && finderAgeVal) {
+        finderAgeSlider.addEventListener('input', (e) => {
+            finderAgeVal.textContent = e.target.value;
+        });
+    }
+
+    if (finderForm && finderResult) {
+        finderForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const age = parseInt(finderAgeSlider.value, 10);
+            const experience = document.getElementById('finderExperience').value;
+
+            let recTitle = '';
+            let recDesc = '';
+            let recPrice = '';
+            let recSessions = '';
+            let recProgramLink = 'programs.html';
+            let recSelectVal = '';
+
+            if (age < 9) {
+                recTitle = 'Grassroots Champions (U-8)';
+                recDesc = 'Perfect for young beginners starting their football journey. Focused on motor skills, coordination, and building passion through fun-first play.';
+                recPrice = '₹2,500/month';
+                recSessions = '3 days / week';
+                recProgramLink = 'programs.html#grassroots';
+                recSelectVal = 'U8 Grassroots';
+            } else if (age >= 9 && age <= 13) {
+                if (experience === 'beginner' || experience === 'intermediate') {
+                    recTitle = 'Youth Development (U-12)';
+                    recDesc = 'Structured, skill-focused development. Introduction to positioning, basic tactics, game understanding, and individual technique refinement under pressure.';
+                    recPrice = '₹3,500/month';
+                    recSessions = '4 days / week';
+                    recProgramLink = 'programs.html#youth';
+                    recSelectVal = 'U12 Development';
+                } else {
+                    recTitle = 'Pre-Elite Training (U-13)';
+                    recDesc = 'Accelerated tactical and physical development for experienced players tracking to competitive youth leagues and club level.';
+                    recPrice = '₹4,000/month';
+                    recSessions = '4 days + Matchday';
+                    recProgramLink = 'programs.html#elite';
+                    recSelectVal = 'U12 Development';
+                }
+            } else {
+                if (experience === 'beginner') {
+                    recTitle = 'Teen Soccer Club (U-17)';
+                    recDesc = 'Recreational but structured training for teens who want to improve their fitness, learn tactics, and enjoy competitive small-sided games.';
+                    recPrice = '₹3,000/month';
+                    recSessions = '3 days / week';
+                    recProgramLink = 'programs.html#youth';
+                    recSelectVal = 'U17 Elite';
+                } else {
+                    recTitle = 'Elite Academy (U-17)';
+                    recDesc = 'High-intensity pathway designed to prepare players for professional trials and AIFF national youth leagues. Complete with GPS analysis and scout clinics.';
+                    recPrice = '₹5,000/month';
+                    recSessions = '5 days + Video Analysis';
+                    recProgramLink = 'programs.html#elite';
+                    recSelectVal = 'U17 Elite';
+                }
+            }
+
+            // Populate results
+            const resultBadge = finderResult.querySelector('.recommend-badge');
+            const resultTitle = finderResult.querySelector('.result-title');
+            const resultDesc = finderResult.querySelector('.result-desc');
+            const statPrice = document.getElementById('resultPrice');
+            const statSessions = document.getElementById('resultSessions');
+            const learnMoreBtn = document.getElementById('finderLearnMoreBtn');
+            const bookBtn = document.getElementById('finderBookBtn');
+
+            if (resultBadge) resultBadge.textContent = 'Recommended Fit';
+            if (resultTitle) resultTitle.textContent = recTitle;
+            if (resultDesc) resultDesc.textContent = recDesc;
+            if (statPrice) statPrice.textContent = recPrice;
+            if (statSessions) statSessions.textContent = recSessions;
+            if (learnMoreBtn) learnMoreBtn.setAttribute('href', recProgramLink);
+            
+            // Set program name attribute for booking modal
+            if (bookBtn) {
+                bookBtn.setAttribute('data-program', recSelectVal);
+            }
+
+            // Show results
+            finderResult.style.display = 'block';
+            // Trigger browser reflow for transitions
+            finderResult.offsetHeight;
+            finderResult.classList.add('active');
+
+            // Scroll results into view smoothly if not visible
+            finderResult.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        });
+    }
 });

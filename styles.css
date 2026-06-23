@@ -1937,3 +1937,482 @@ h1, h2, h3, h4 {
 .subpage-main {
     padding-top: 100px;
 }
+
+/* ==========================================================================
+   Expanded Home Page Features
+   ========================================================================== */
+
+/* 1. Hero Video */
+.hero-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.35;
+}
+
+/* 2. Affiliations & Partnerships Banner */
+.affiliations-banner {
+    padding: 35px 0;
+    background-color: rgba(6, 12, 9, 0.95);
+    border-bottom: 1px solid var(--color-border);
+    text-align: center;
+    position: relative;
+    z-index: 5;
+}
+
+.banner-title {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    letter-spacing: 0.12em;
+    display: block;
+    margin-bottom: 24px;
+}
+
+.banner-logos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px 48px;
+}
+
+.partner-logo {
+    font-family: var(--font-heading);
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: var(--color-text-muted);
+    opacity: 0.55;
+    transition: var(--transition-smooth);
+    border: 1px dashed rgba(16, 185, 129, 0.2);
+    padding: 10px 20px;
+    border-radius: 4px;
+    letter-spacing: 0.02em;
+}
+
+.partner-logo:hover {
+    opacity: 1;
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+    box-shadow: 0 0 15px rgba(57, 255, 20, 0.15);
+    background-color: rgba(16, 185, 129, 0.02);
+}
+
+/* 3. Why Choose Apex Spotlight Grid */
+.why-apex-section {
+    padding: 100px 0;
+    background-color: var(--bg-primary);
+}
+
+.why-apex-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+}
+
+.why-card {
+    background: var(--bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    padding: 40px 24px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: var(--transition-smooth);
+}
+
+.why-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--color-accent);
+    box-shadow: var(--shadow-glow);
+}
+
+.why-icon {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.why-title {
+    font-size: 1.25rem;
+    margin-bottom: 12px;
+    color: var(--color-text);
+}
+
+.why-text {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    line-height: 1.6;
+}
+
+/* 4. Player Journey Pathway (Roadmap) */
+.pathway-section {
+    padding: 100px 0;
+    background-color: var(--bg-secondary);
+}
+
+.pathway-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.pathway-steps {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 48px;
+    position: relative;
+    padding: 0 10px;
+}
+
+.pathway-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.step-num {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background-color: var(--bg-card);
+    border: 2px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: var(--color-text-muted);
+    transition: var(--transition-smooth);
+    margin-bottom: 12px;
+}
+
+.step-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    transition: var(--transition-smooth);
+}
+
+.pathway-line {
+    flex-grow: 1;
+    height: 2px;
+    background-color: var(--color-border);
+    margin-top: -24px;
+    z-index: 1;
+    transition: var(--transition-smooth);
+}
+
+.pathway-step:hover .step-num,
+.pathway-step.active .step-num {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+    box-shadow: 0 0 20px rgba(57, 255, 20, 0.25);
+    background-color: rgba(16, 185, 129, 0.05);
+}
+
+.pathway-step:hover .step-label,
+.pathway-step.active .step-label {
+    color: var(--color-text);
+}
+
+.pathway-detail-card {
+    background: var(--bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    padding: 40px;
+    min-height: 280px;
+    text-align: left;
+}
+
+.pathway-stage-content {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.pathway-stage-content.active {
+    display: block;
+    opacity: 1;
+}
+
+.stage-title {
+    font-size: 1.35rem;
+    margin-bottom: 16px;
+    color: var(--color-accent);
+}
+
+.stage-desc {
+    font-size: 0.95rem;
+    color: var(--color-text-muted);
+    line-height: 1.65;
+    margin-bottom: 24px;
+}
+
+.stage-milestones {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    font-size: 0.9rem;
+}
+
+.stage-milestones li {
+    color: var(--color-text);
+}
+
+.stage-milestones strong {
+    color: var(--color-accent);
+}
+
+/* 5. Program Finder Quiz Tool */
+.finder-section {
+    padding: 100px 0;
+    background-color: var(--bg-primary);
+}
+
+.finder-card {
+    background: var(--bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 40px;
+}
+
+.finder-form {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.finder-inputs {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+}
+
+.age-range-slider {
+    width: 100%;
+    accent-color: var(--color-accent);
+    margin: 15px 0;
+    cursor: pointer;
+}
+
+.slider-val-box {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-accent);
+}
+
+.finder-submit {
+    margin-top: 10px;
+}
+
+.finder-result-box {
+    display: none;
+    margin-top: 40px;
+    padding-top: 40px;
+    border-top: 1px solid var(--color-border);
+    text-align: left;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.finder-result-box.active {
+    display: block;
+    opacity: 1;
+}
+
+.recommend-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    background-color: rgba(57, 255, 20, 0.1);
+    color: var(--color-accent);
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
+}
+
+.result-title {
+    font-size: 1.5rem;
+    margin-bottom: 12px;
+}
+
+.result-desc {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    line-height: 1.55;
+    margin-bottom: 24px;
+}
+
+.result-stats {
+    display: flex;
+    gap: 40px;
+    margin-bottom: 30px;
+    background: rgba(16, 185, 129, 0.03);
+    padding: 16px 24px;
+    border-radius: 8px;
+    border: 1px solid rgba(16, 185, 129, 0.08);
+}
+
+.result-stat-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.stat-lbl {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+}
+
+.result-stat-item strong {
+    font-size: 1.15rem;
+    color: var(--color-text);
+}
+
+.result-actions {
+    display: flex;
+    gap: 16px;
+}
+
+/* 6. Latest News & Announcements */
+.news-section {
+    padding: 100px 0;
+    background-color: var(--bg-secondary);
+}
+
+.news-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+.news-card {
+    background: var(--bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    padding: 32px;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: var(--transition-smooth);
+}
+
+.news-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--color-accent);
+    box-shadow: var(--shadow-glow);
+}
+
+.news-date {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-accent);
+    margin-bottom: 12px;
+}
+
+.news-title {
+    font-size: 1.2rem;
+    margin-bottom: 12px;
+    color: var(--color-text);
+    line-height: 1.4;
+}
+
+.news-excerpt {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    line-height: 1.55;
+    margin-bottom: 24px;
+    flex-grow: 1;
+}
+
+.news-link {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    text-decoration: none;
+    transition: var(--transition-smooth);
+}
+
+.news-link:hover {
+    color: var(--color-accent);
+}
+
+/* Responsive Media Queries */
+@media (max-width: 1024px) {
+    .why-apex-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+    
+    .news-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .why-apex-grid {
+        grid-template-columns: 1fr;
+        max-width: 480px;
+        margin: 0 auto;
+    }
+    
+    .news-grid {
+        grid-template-columns: 1fr;
+        max-width: 480px;
+        margin: 0 auto;
+    }
+    
+    .finder-inputs {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .result-actions {
+        flex-direction: column;
+    }
+    
+    .result-stats {
+        flex-direction: column;
+        gap: 16px;
+    }
+    
+    .pathway-steps {
+        flex-direction: column;
+        gap: 24px;
+        align-items: flex-start;
+        padding-left: 20px;
+    }
+    
+    .pathway-line {
+        display: none;
+    }
+    
+    .pathway-step {
+        flex-direction: row;
+        gap: 16px;
+        align-items: center;
+    }
+    
+    .step-num {
+        margin-bottom: 0;
+    }
+}
