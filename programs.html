@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academy Programs & Schedule | Apex Football Academy</title>
+    <meta name="description" content="Explore youth soccer training programs and weekly session schedules for Grassroots (U-8), Development (U-12), and Elite Academy (U-17) divisions.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- CSS Stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Header / Navigation -->
+    <header class="header">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">⚽</span>
+                <span class="logo-text">APEX<span class="highlight">FC</span></span>
+            </a>
+            
+            <button class="mobile-nav-toggle" aria-label="Toggle navigation" id="navToggle">
+                <span class="hamburger"></span>
+            </button>
+            
+            <nav class="nav-menu" id="navMenu">
+                <ul>
+                    <li><a href="philosophy.html" class="nav-link">Philosophy</a></li>
+                    <li><a href="programs.html" class="nav-link">Programs</a></li>
+                    <li><a href="programs.html#schedule" class="nav-link">Schedule</a></li>
+                    <li><a href="coaches.html" class="nav-link">Coaches</a></li>
+                    <li><a href="leagues.html" class="nav-link">Leagues</a></li>
+                    <li><a href="store.html" class="nav-link">Store</a></li>
+                    <li><a href="locations.html" class="nav-link">Locations</a></li>
+                    <li><a href="index.html#testimonials" class="nav-link">Testimonials</a></li>
+                    <li><a href="index.html#faq" class="nav-link">FAQ</a></li>
+                </ul>
+                <button class="btn btn-primary nav-cta open-modal-btn">Book Free Trial</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="subpage-main">
+        
+        <!-- Programs Section -->
+        <section class="programs-section" id="programs">
+            <div class="container">
+                <div class="section-header text-center animate-on-scroll slide-up">
+                    <h2 class="section-title">Academy Programs</h2>
+                    <p class="section-subtitle">Tailored training regimens designed specifically for different age brackets and skill levels.</p>
+                </div>
+
+                <div class="programs-grid">
+                    <!-- U-8 Program -->
+                    <div class="program-card spotlight-card animate-on-scroll zoom-in">
+                        <div class="program-badge">Ages 5 - 8</div>
+                        <h3 class="program-name">Grassroots Foundations (U8)</h3>
+                        <p class="program-description">Fun-focused training introduction. Focuses on motor skills, coordination, agility, basic ball control, and teamwork.</p>
+                        <ul class="program-features">
+                            <li>⚽ 2 Sessions / Week</li>
+                            <li>⚽ Fun Agility Drills</li>
+                            <li>⚽ Friendly Match Play</li>
+                            <li>⚽ Max 10 Players/Coach</li>
+                        </ul>
+                        <div class="program-price">₹2,999<span>/mo</span></div>
+                        <button class="btn btn-secondary btn-full open-modal-btn" data-program="U8 Grassroots">Sign Up</button>
+                    </div>
+
+                    <!-- U-12 Program -->
+                    <div class="program-card featured spotlight-card animate-on-scroll zoom-in delay-1">
+                        <div class="program-tag">Most Popular</div>
+                        <div class="program-badge">Ages 9 - 12</div>
+                        <h3 class="program-name">Development Squad (U12)</h3>
+                        <p class="program-description">Medium-intensity training. Focuses on tactical positioning, passing mechanics, speed of play, and set pieces.</p>
+                        <ul class="program-features">
+                            <li>⚽ 3 Sessions / Week</li>
+                            <li>⚽ Technical Video Analysis</li>
+                            <li>⚽ Inter-Academy Leagues</li>
+                            <li>⚽ Max 12 Players/Coach</li>
+                        </ul>
+                        <div class="program-price">₹3,999<span>/mo</span></div>
+                        <button class="btn btn-primary btn-full open-modal-btn" data-program="U12 Development">Sign Up</button>
+                    </div>
+
+                    <!-- U-17 Program -->
+                    <div class="program-card spotlight-card animate-on-scroll zoom-in delay-2">
+                        <div class="program-badge">Ages 13 - 17</div>
+                        <h3 class="program-name">Elite Academy (U17)</h3>
+                        <p class="program-description">High-performance training preparing athletes for college tryouts, professional trials, and national scouting leagues.</p>
+                        <ul class="program-features">
+                            <li>⚽ 4 Sessions / Week</li>
+                            <li>⚽ High Strength & Conditioning</li>
+                            <li>⚽ Scouting & Tournaments</li>
+                            <li>⚽ Tactical Positioning GPS</li>
+                        </ul>
+                        <div class="program-price">₹4,999<span>/mo</span></div>
+                        <button class="btn btn-secondary btn-full open-modal-btn" data-program="U17 Elite">Sign Up</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Weekly Schedule Section -->
+        <section class="schedule-section" id="schedule">
+            <div class="container">
+                <div class="section-header text-center animate-on-scroll slide-up">
+                    <h2 class="section-title">Weekly Training Schedule</h2>
+                    <p class="section-subtitle">Select your player's division to view current training days and time slots.</p>
+                </div>
+
+                <div class="schedule-tabs animate-on-scroll slide-up">
+                    <button class="tab-btn active" data-tab="u8">U-8 Foundations</button>
+                    <button class="tab-btn" data-tab="u12">U-12 Development</button>
+                    <button class="tab-btn" data-tab="u17">U-17 Elite</button>
+                </div>
+
+                <div class="schedule-content animate-on-scroll slide-up delay-1">
+                    <!-- U-8 Schedule -->
+                    <div class="schedule-table active" id="schedule-u8">
+                        <div class="schedule-grid">
+                            <div class="schedule-header">Day</div>
+                            <div class="schedule-header">Time</div>
+                            <div class="schedule-header">Focus Area</div>
+                            <div class="schedule-header">Pitch Location</div>
+                            
+                            <div class="schedule-day">Tuesday</div>
+                            <div>4:30 PM - 5:30 PM</div>
+                            <div class="focus-highlight">Ball Mastery & Fun</div>
+                            <div>Pitch A (Indoor)</div>
+                            
+                            <div class="schedule-day">Thursday</div>
+                            <div>4:30 PM - 5:30 PM</div>
+                            <div class="focus-highlight">Agility & Cooperation</div>
+                            <div>Pitch A (Indoor)</div>
+                            
+                            <div class="schedule-day">Saturday</div>
+                            <div>9:00 AM - 10:30 AM</div>
+                            <div class="focus-highlight">Intro Match Formats</div>
+                            <div>Pitch B (Outdoor)</div>
+                        </div>
+                    </div>
+
+                    <!-- U-12 Schedule -->
+                    <div class="schedule-table" id="schedule-u12">
+                        <div class="schedule-grid">
+                            <div class="schedule-header">Day</div>
+                            <div class="schedule-header">Time</div>
+                            <div class="schedule-header">Focus Area</div>
+                            <div class="schedule-header">Pitch Location</div>
+                            
+                            <div class="schedule-day">Monday</div>
+                            <div>5:30 PM - 7:00 PM</div>
+                            <div class="focus-highlight">Tactical Awareness</div>
+                            <div>Pitch B (Outdoor)</div>
+                            
+                            <div class="schedule-day">Wednesday</div>
+                            <div>5:30 PM - 7:00 PM</div>
+                            <div class="focus-highlight">Passing & Transition</div>
+                            <div>Pitch B (Outdoor)</div>
+
+                            <div class="schedule-day">Friday</div>
+                            <div>5:30 PM - 7:00 PM</div>
+                            <div class="focus-highlight">Set Pieces & Shooting</div>
+                            <div>Pitch A (Indoor)</div>
+                        </div>
+                    </div>
+
+                    <!-- U-17 Schedule -->
+                    <div class="schedule-table" id="schedule-u17">
+                        <div class="schedule-grid">
+                            <div class="schedule-header">Day</div>
+                            <div class="schedule-header">Time</div>
+                            <div class="schedule-header">Focus Area</div>
+                            <div class="schedule-header">Pitch Location</div>
+                            
+                            <div class="schedule-day">Monday</div>
+                            <div>7:00 PM - 8:45 PM</div>
+                            <div class="focus-highlight">Strength & Conditioning</div>
+                            <div>Fitness Arena</div>
+                            
+                            <div class="schedule-day">Tuesday</div>
+                            <div>7:00 PM - 8:45 PM</div>
+                            <div class="focus-highlight">Attacking Transitions</div>
+                            <div>Stadium Turf (Main)</div>
+
+                            <div class="schedule-day">Thursday</div>
+                            <div>7:00 PM - 8:45 PM</div>
+                            <div class="focus-highlight">Defensive Shape Blocks</div>
+                            <div>Stadium Turf (Main)</div>
+
+                            <div class="schedule-day">Saturday</div>
+                            <div>11:00 AM - 1:00 PM</div>
+                            <div class="focus-highlight">Competitive Match / Scouting</div>
+                            <div>Stadium Turf (Main)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <span class="logo-icon">⚽</span>
+                        <span class="logo-text">APEX<span class="highlight">FC</span></span>
+                    </a>
+                    <p class="footer-tagline">Youth football excellence. Elevating skills, tactics, and character across India's leading academy campuses.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Navigation</h4>
+                    <ul>
+                        <li><a href="philosophy.html">Philosophy</a></li>
+                        <li><a href="programs.html">Programs</a></li>
+                        <li><a href="programs.html#schedule">Schedule</a></li>
+                        <li><a href="coaches.html">Coaches</a></li>
+                        <li><a href="leagues.html">Leagues</a></li>
+                        <li><a href="store.html">Store</a></li>
+                        <li><a href="locations.html">Locations</a></li>
+                        <li><a href="index.html#testimonials">Testimonials</a></li>
+                        <li><a href="index.html#faq">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Contact Us</h4>
+                    <p>📍 Dwarka Sports Complex, Sector 11, New Delhi - 110075</p>
+                    <p>📞 +91 98765 43210</p>
+                    <p>✉️ register@apexfootball.in</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Apex Football Academy. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Booking Modal Portal -->
+    <div class="modal-overlay" id="bookingModal">
+        <div class="modal-container">
+            <button class="modal-close" id="modalClose" aria-label="Close modal">&times;</button>
+            <div class="modal-header">
+                <h3>Trial Session Registration</h3>
+                <p>Submit player details to secure a spot for a free evaluation training session.</p>
+            </div>
+            <form class="modal-form" id="bookingForm">
+                <div class="modal-form-column player-info-column">
+                    <h4 class="column-subtitle">Player Information</h4>
+                    <div class="form-group player-name">
+                        <label for="playerName">Player Name</label>
+                        <input type="text" id="playerName" placeholder="Enter player full name" required>
+                    </div>
+                    <div class="form-group-row">
+                        <div class="form-group player-age">
+                            <label for="playerAge">Player Age</label>
+                            <input type="number" id="playerAge" min="4" max="18" placeholder="e.g. 10" required>
+                        </div>
+                        <div class="form-group program-select">
+                            <label for="programSelect">Academy Program</label>
+                            <select id="programSelect" required>
+                                <option value="" disabled selected>Choose a Program</option>
+                                <option value="U8 Grassroots">Grassroots (U-8)</option>
+                                <option value="U12 Development">Development (U-12)</option>
+                                <option value="U17 Elite">Elite Academy (U-17)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group preferred-date">
+                        <label for="preferredDate">Preferred Trial Date</label>
+                        <input type="date" id="preferredDate" required>
+                    </div>
+                </div>
+                
+                <div class="modal-form-column parent-info-column">
+                    <h4 class="column-subtitle">Parent Information</h4>
+                    <div class="form-group parent-name">
+                        <label for="parentName">Parent/Guardian Name</label>
+                        <input type="text" id="parentName" placeholder="Enter parent name" required>
+                    </div>
+                    <div class="form-group parent-phone">
+                        <label for="parentPhone">Phone Number</label>
+                        <input type="tel" id="parentPhone" placeholder="(555) 000-0000" required>
+                    </div>
+                    <div class="form-group parent-email">
+                        <label for="parentEmail">Email Address</label>
+                        <input type="email" id="parentEmail" placeholder="parent@example.com" required>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-full pulse-glow form-submit">Complete Registration ➔</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Custom Toast Notification System -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- JS Logic Script -->
+    <script src="app.js"></script>
+</body>
+</html>

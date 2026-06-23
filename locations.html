@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academy Locations & Map | Apex Football Academy</title>
+    <meta name="description" content="Find the closest Apex Football Academy location in New Delhi, Mumbai, or Bengaluru, and view facility details.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- CSS Stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Header / Navigation -->
+    <header class="header">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">⚽</span>
+                <span class="logo-text">APEX<span class="highlight">FC</span></span>
+            </a>
+            
+            <button class="mobile-nav-toggle" aria-label="Toggle navigation" id="navToggle">
+                <span class="hamburger"></span>
+            </button>
+            
+            <nav class="nav-menu" id="navMenu">
+                <ul>
+                    <li><a href="philosophy.html" class="nav-link">Philosophy</a></li>
+                    <li><a href="programs.html" class="nav-link">Programs</a></li>
+                    <li><a href="programs.html#schedule" class="nav-link">Schedule</a></li>
+                    <li><a href="coaches.html" class="nav-link">Coaches</a></li>
+                    <li><a href="leagues.html" class="nav-link">Leagues</a></li>
+                    <li><a href="store.html" class="nav-link">Store</a></li>
+                    <li><a href="locations.html" class="nav-link">Locations</a></li>
+                    <li><a href="index.html#testimonials" class="nav-link">Testimonials</a></li>
+                    <li><a href="index.html#faq" class="nav-link">FAQ</a></li>
+                </ul>
+                <button class="btn btn-primary nav-cta open-modal-btn">Book Free Trial</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="subpage-main">
+        
+        <!-- Academy Locations Map Section -->
+        <section class="locations-section" id="locations">
+            <div class="container">
+                <div class="section-header text-center animate-on-scroll slide-up">
+                    <h2 class="section-title">Our Academy Locations</h2>
+                    <p class="section-subtitle">Find a state-of-the-art training field near you. Multiple elite hubs across metro Indian cities.</p>
+                </div>
+
+                <div class="locations-grid">
+                    <!-- Locations List Column -->
+                    <div class="locations-list-column animate-on-scroll slide-left">
+                        <!-- Delhi Card -->
+                        <div class="location-hub-card spotlight-card active" data-location="delhi">
+                            <div class="location-dot"></div>
+                            <div class="location-hub-info">
+                                <h3 class="location-hub-name">New Delhi (National Head Hub)</h3>
+                                <p class="location-hub-address">Dwarka Sports Complex, Sector 11, New Delhi - 110075</p>
+                            </div>
+                        </div>
+
+                        <!-- Mumbai Card -->
+                        <div class="location-hub-card spotlight-card" data-location="mumbai">
+                            <div class="location-dot"></div>
+                            <div class="location-hub-info">
+                                <h3 class="location-hub-name">Mumbai (Bandra Arena)</h3>
+                                <p class="location-hub-address">Bandra Kurla Complex Sports Ground, Bandra East, Mumbai - 400051</p>
+                            </div>
+                        </div>
+
+                        <!-- Bengaluru Card -->
+                        <div class="location-hub-card spotlight-card" data-location="bengaluru">
+                            <div class="location-dot"></div>
+                            <div class="location-hub-info">
+                                <h3 class="location-hub-name">Bengaluru (Kanteerava Turf)</h3>
+                                <p class="location-hub-address">Kanteerava Stadium Annex Track, Sampangi Rama Nagar, Bengaluru - 560001</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Map Display -->
+                    <div class="map-display-container animate-on-scroll slide-right delay-1">
+                        <!-- Detailed Info Overlay Card -->
+                        <div class="facility-details-card spotlight-card">
+                            <h4 class="facility-title">Facility Highlights</h4>
+                            <ul class="facility-amenities" id="facilityAmenities">
+                                <li>⚽ <strong>Pitch Type:</strong> FIFA-pro Grade Artificial Turf</li>
+                                <li>⚽ <strong>Head Coach:</strong> Coach Marcus Vance</li>
+                                <li>⚽ <strong>Facilities:</strong> Indoor Changing, Video Analysis Suite, GPS Trackers</li>
+                                <li>⚽ <strong>Phone:</strong> +91 98765 43210</li>
+                            </ul>
+                        </div>
+                        
+                        <!-- Embedded Google Map -->
+                        <div class="map-iframe-wrapper">
+                            <iframe 
+                                id="mapIframe"
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3503.4475459397984!2d77.05436667630743!3d28.58632617569116!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d1ad33e387063%3A0xe96c42954a29a1e0!2sDwarka%20Sector%2011%20Sports%20Complex!5e0!3m2!1sen!2sin!4v1719149000000!5m2!1sen!2sin" 
+                                width="100%" 
+                                height="100%" 
+                                style="border:0;" 
+                                allowfullscreen="" 
+                                loading="lazy" 
+                                referrerpolicy="no-referrer-when-downgrade">
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <span class="logo-icon">⚽</span>
+                        <span class="logo-text">APEX<span class="highlight">FC</span></span>
+                    </a>
+                    <p class="footer-tagline">Youth football excellence. Elevating skills, tactics, and character across India's leading academy campuses.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Navigation</h4>
+                    <ul>
+                        <li><a href="philosophy.html">Philosophy</a></li>
+                        <li><a href="programs.html">Programs</a></li>
+                        <li><a href="programs.html#schedule">Schedule</a></li>
+                        <li><a href="coaches.html">Coaches</a></li>
+                        <li><a href="leagues.html">Leagues</a></li>
+                        <li><a href="store.html">Store</a></li>
+                        <li><a href="locations.html">Locations</a></li>
+                        <li><a href="index.html#testimonials">Testimonials</a></li>
+                        <li><a href="index.html#faq">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Contact Us</h4>
+                    <p>📍 Dwarka Sports Complex, Sector 11, New Delhi - 110075</p>
+                    <p>📞 +91 98765 43210</p>
+                    <p>✉️ register@apexfootball.in</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Apex Football Academy. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Booking Modal Portal -->
+    <div class="modal-overlay" id="bookingModal">
+        <div class="modal-container">
+            <button class="modal-close" id="modalClose" aria-label="Close modal">&times;</button>
+            <div class="modal-header">
+                <h3>Trial Session Registration</h3>
+                <p>Submit player details to secure a spot for a free evaluation training session.</p>
+            </div>
+            <form class="modal-form" id="bookingForm">
+                <div class="modal-form-column player-info-column">
+                    <h4 class="column-subtitle">Player Information</h4>
+                    <div class="form-group player-name">
+                        <label for="playerName">Player Name</label>
+                        <input type="text" id="playerName" placeholder="Enter player full name" required>
+                    </div>
+                    <div class="form-group-row">
+                        <div class="form-group player-age">
+                            <label for="playerAge">Player Age</label>
+                            <input type="number" id="playerAge" min="4" max="18" placeholder="e.g. 10" required>
+                        </div>
+                        <div class="form-group program-select">
+                            <label for="programSelect">Academy Program</label>
+                            <select id="programSelect" required>
+                                <option value="" disabled selected>Choose a Program</option>
+                                <option value="U8 Grassroots">Grassroots (U-8)</option>
+                                <option value="U12 Development">Development (U-12)</option>
+                                <option value="U17 Elite">Elite Academy (U-17)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group preferred-date">
+                        <label for="preferredDate">Preferred Trial Date</label>
+                        <input type="date" id="preferredDate" required>
+                    </div>
+                </div>
+                
+                <div class="modal-form-column parent-info-column">
+                    <h4 class="column-subtitle">Parent Information</h4>
+                    <div class="form-group parent-name">
+                        <label for="parentName">Parent/Guardian Name</label>
+                        <input type="text" id="parentName" placeholder="Enter parent name" required>
+                    </div>
+                    <div class="form-group parent-phone">
+                        <label for="parentPhone">Phone Number</label>
+                        <input type="tel" id="parentPhone" placeholder="(555) 000-0000" required>
+                    </div>
+                    <div class="form-group parent-email">
+                        <label for="parentEmail">Email Address</label>
+                        <input type="email" id="parentEmail" placeholder="parent@example.com" required>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-full pulse-glow form-submit">Complete Registration ➔</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Custom Toast Notification System -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- JS Logic Script -->
+    <script src="app.js"></script>
+</body>
+</html>

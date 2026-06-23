@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Philosophy | Apex Football Academy</title>
+    <meta name="description" content="Discover the core technical, tactical, and character building philosophies of Apex Football Academy.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- CSS Stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Header / Navigation -->
+    <header class="header">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">⚽</span>
+                <span class="logo-text">APEX<span class="highlight">FC</span></span>
+            </a>
+            
+            <button class="mobile-nav-toggle" aria-label="Toggle navigation" id="navToggle">
+                <span class="hamburger"></span>
+            </button>
+            
+            <nav class="nav-menu" id="navMenu">
+                <ul>
+                    <li><a href="philosophy.html" class="nav-link">Philosophy</a></li>
+                    <li><a href="programs.html" class="nav-link">Programs</a></li>
+                    <li><a href="programs.html#schedule" class="nav-link">Schedule</a></li>
+                    <li><a href="coaches.html" class="nav-link">Coaches</a></li>
+                    <li><a href="leagues.html" class="nav-link">Leagues</a></li>
+                    <li><a href="store.html" class="nav-link">Store</a></li>
+                    <li><a href="locations.html" class="nav-link">Locations</a></li>
+                    <li><a href="index.html#testimonials" class="nav-link">Testimonials</a></li>
+                    <li><a href="index.html#faq" class="nav-link">FAQ</a></li>
+                </ul>
+                <button class="btn btn-primary nav-cta open-modal-btn">Book Free Trial</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="subpage-main">
+        
+        <section class="about-section" id="about">
+            <div class="container">
+                <div class="section-header text-center animate-on-scroll slide-up">
+                    <h2 class="section-title">Our Academy Philosophy</h2>
+                    <p class="section-subtitle">We don't just build great football players; we shape disciplined, tactical, and resilient individuals.</p>
+                </div>
+                
+                <div class="philosophy-grid">
+                    <div class="philosophy-card spotlight-card animate-on-scroll slide-left">
+                        <div class="card-icon">⚡</div>
+                        <h3 class="card-title">Technical Excellence</h3>
+                        <p class="card-text">Ball mastery, precision passing, dynamic dribbling, and structural positioning. Our players build a solid foundation of technical skills.</p>
+                    </div>
+                    <div class="philosophy-card spotlight-card animate-on-scroll slide-up delay-1">
+                        <div class="card-icon">🧠</div>
+                        <h3 class="card-title">Tactical Intelligence</h3>
+                        <p class="card-text">Spatial awareness, game-reading abilities, transition speeds, and positioning structures to outsmart opponents on the pitch.</p>
+                    </div>
+                    <div class="philosophy-card spotlight-card animate-on-scroll slide-right delay-2">
+                        <div class="card-icon">🛡️</div>
+                        <h3 class="card-title">Character & Discipline</h3>
+                        <p class="card-text">Leadership, teamwork, sportsmanship, and mental fortitude. We cultivate the mental strength required for high-stakes matches.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <span class="logo-icon">⚽</span>
+                        <span class="logo-text">APEX<span class="highlight">FC</span></span>
+                    </a>
+                    <p class="footer-tagline">Youth football excellence. Elevating skills, tactics, and character across India's leading academy campuses.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Navigation</h4>
+                    <ul>
+                        <li><a href="philosophy.html">Philosophy</a></li>
+                        <li><a href="programs.html">Programs</a></li>
+                        <li><a href="programs.html#schedule">Schedule</a></li>
+                        <li><a href="coaches.html">Coaches</a></li>
+                        <li><a href="leagues.html">Leagues</a></li>
+                        <li><a href="store.html">Store</a></li>
+                        <li><a href="locations.html">Locations</a></li>
+                        <li><a href="index.html#testimonials">Testimonials</a></li>
+                        <li><a href="index.html#faq">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Contact Us</h4>
+                    <p>📍 Dwarka Sports Complex, Sector 11, New Delhi - 110075</p>
+                    <p>📞 +91 98765 43210</p>
+                    <p>✉️ register@apexfootball.in</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Apex Football Academy. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Booking Modal Portal -->
+    <div class="modal-overlay" id="bookingModal">
+        <div class="modal-container">
+            <button class="modal-close" id="modalClose" aria-label="Close modal">&times;</button>
+            <div class="modal-header">
+                <h3>Trial Session Registration</h3>
+                <p>Submit player details to secure a spot for a free evaluation training session.</p>
+            </div>
+            <form class="modal-form" id="bookingForm">
+                <div class="modal-form-column player-info-column">
+                    <h4 class="column-subtitle">Player Information</h4>
+                    <div class="form-group player-name">
+                        <label for="playerName">Player Name</label>
+                        <input type="text" id="playerName" placeholder="Enter player full name" required>
+                    </div>
+                    <div class="form-group-row">
+                        <div class="form-group player-age">
+                            <label for="playerAge">Player Age</label>
+                            <input type="number" id="playerAge" min="4" max="18" placeholder="e.g. 10" required>
+                        </div>
+                        <div class="form-group program-select">
+                            <label for="programSelect">Academy Program</label>
+                            <select id="programSelect" required>
+                                <option value="" disabled selected>Choose a Program</option>
+                                <option value="U8 Grassroots">Grassroots (U-8)</option>
+                                <option value="U12 Development">Development (U-12)</option>
+                                <option value="U17 Elite">Elite Academy (U-17)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group preferred-date">
+                        <label for="preferredDate">Preferred Trial Date</label>
+                        <input type="date" id="preferredDate" required>
+                    </div>
+                </div>
+                
+                <div class="modal-form-column parent-info-column">
+                    <h4 class="column-subtitle">Parent Information</h4>
+                    <div class="form-group parent-name">
+                        <label for="parentName">Parent/Guardian Name</label>
+                        <input type="text" id="parentName" placeholder="Enter parent name" required>
+                    </div>
+                    <div class="form-group parent-phone">
+                        <label for="parentPhone">Phone Number</label>
+                        <input type="tel" id="parentPhone" placeholder="(555) 000-0000" required>
+                    </div>
+                    <div class="form-group parent-email">
+                        <label for="parentEmail">Email Address</label>
+                        <input type="email" id="parentEmail" placeholder="parent@example.com" required>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-full pulse-glow form-submit">Complete Registration ➔</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Custom Toast Notification System -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- JS Logic Script -->
+    <script src="app.js"></script>
+</body>
+</html>

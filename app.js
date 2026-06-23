@@ -373,31 +373,86 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ==========================================================================
-    // 10. Scrollspy Navigation Active Highlighting
+    // 10. Active Page Link Selection & Scrollspy
     // ==========================================================================
-    const sections = document.querySelectorAll('section[id]');
+    const currentPath = window.location.pathname;
+    const pageName = currentPath.split('/').pop() || 'index.html';
     
-    const scrollspyObserverOptions = {
-        root: null,
-        rootMargin: '-20% 0px -60% 0px', // Trigger when section is in the middle of viewport
-        threshold: 0
-    };
+    // Resolve active state based on current page
+    navLinks.forEach(link => {
+        const linkHref = link.getAttribute('href');
+        if (linkHref === pageName) {
+            link.classList.add('active');
+        } else if (pageName === 'index.html' && linkHref.startsWith('#')) {
+            // Handled by scrollspy below
+        } else if (linkHref.includes(pageName)) {
+            // Check if pageName matches the page in the link (e.g. programs.html#schedule on programs.html)
+            if (linkHref.includes('#')) {
+                const hash = linkHref.split('#')[1];
+                if (window.location.hash === '#' + hash) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            } else if (!window.location.hash) {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
+        } else {
+            link.classList.remove('active');
+        }
+    });
 
-    const scrollspyObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const id = entry.target.getAttribute('id');
-                const activeLink = document.querySelector(`.nav-link[href="#${id}"]`);
-                
-                if (activeLink) {
-                    navLinks.forEach(link => link.classList.remove('active'));
-                    activeLink.classList.add('active');
+    // Listen to hash changes (e.g., when clicking Schedule link on programs.html)
+    window.addEventListener('hashchange', () => {
+        navLinks.forEach(link => {
+            const linkHref = link.getAttribute('href');
+            if (linkHref.includes(pageName)) {
+                if (linkHref.includes('#')) {
+                    const hash = linkHref.split('#')[1];
+                    if (window.location.hash === '#' + hash) {
+                        link.classList.add('active');
+                    } else {
+                        link.classList.remove('active');
+                    }
+                } else if (!window.location.hash) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
                 }
             }
         });
-    }, scrollspyObserverOptions);
+    });
 
-    sections.forEach(section => scrollspyObserver.observe(section));
+    // Only run scrollspy on the home page (index.html or root path)
+    if (pageName === 'index.html' || pageName === '') {
+        const sections = document.querySelectorAll('section[id]');
+        
+        const scrollspyObserverOptions = {
+            root: null,
+            rootMargin: '-20% 0px -60% 0px', // Trigger when section is in the middle of viewport
+            threshold: 0
+        };
+
+        const scrollspyObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.getAttribute('id');
+                    // Match local anchor
+                    const activeLink = document.querySelector(`.nav-link[href="#${id}"]`) || 
+                                       document.querySelector(`.nav-link[href="index.html#${id}"]`);
+                    
+                    if (activeLink) {
+                        navLinks.forEach(link => link.classList.remove('active'));
+                        activeLink.classList.add('active');
+                    }
+                }
+            });
+        }, scrollspyObserverOptions);
+
+        sections.forEach(section => scrollspyObserver.observe(section));
+    }
 
     // ==========================================================================
     // 11. Add to Cart Toast Notifications
