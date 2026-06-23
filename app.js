@@ -551,6 +551,38 @@ document.addEventListener('DOMContentLoaded', () => {
                         </div>
                     </div>
                     
+                    <!-- Payment Section -->
+                    <div class="checkout-payment-section">
+                        <h4 class="column-subtitle">Payment Method</h4>
+                        <div class="payment-options">
+                            <label class="payment-option">
+                                <input type="radio" name="paymentMethod" value="cod" checked required>
+                                <span class="option-card">
+                                    <span class="option-icon">💵</span>
+                                    <span class="option-title">Cash on Delivery</span>
+                                    <span class="option-desc">Pay with cash upon delivery of your gear</span>
+                                </span>
+                            </label>
+                            <label class="payment-option">
+                                <input type="radio" name="paymentMethod" value="upi" required>
+                                <span class="option-card">
+                                    <span class="option-icon">📱</span>
+                                    <span class="option-title">UPI Payment</span>
+                                    <span class="option-desc">Scan QR to pay instantly via any UPI app</span>
+                                </span>
+                            </label>
+                        </div>
+                        
+                        <!-- Dynamic UPI QR Panel -->
+                        <div class="upi-qr-panel" id="upiQrPanel" style="display: none;">
+                            <p class="upi-instruction">Scan the QR code below using any UPI app (GPay, PhonePe, Paytm, BHIM) to pay <strong id="upiTotalAmount" class="highlight">₹0</strong>:</p>
+                            <div class="qr-container">
+                                <img src="images/upi_qr.jpg" alt="UPI QR Code" class="upi-qr-image">
+                            </div>
+                            <p class="upi-subtext">⚠️ Please scan and complete the payment before clicking 'Place Order'.</p>
+                        </div>
+                    </div>
+                    
                     <div class="order-summary-panel">
                         <h4 class="column-subtitle">Order Summary</h4>
                         <div class="checkout-summary-items" id="checkoutSummaryItems">
@@ -562,7 +594,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         </div>
                     </div>
                     
-                    <button type="submit" class="btn btn-primary btn-full pulse-glow form-submit">Complete Purchase & Order ➔</button>
+                    <button type="submit" class="btn btn-primary btn-full pulse-glow form-submit">Place Order ➔</button>
                 </form>
             </div>
         </div>
@@ -578,6 +610,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="receipt-row">
                         <span>Order Reference:</span>
                         <strong id="receiptOrderNum">APEX-10001</strong>
+                    </div>
+                    <div class="receipt-row">
+                        <span>Payment Method:</span>
+                        <strong id="receiptPaymentMethod">Cash on Delivery</strong>
                     </div>
                     <div class="receipt-row">
                         <span>Total Paid:</span>
@@ -620,6 +656,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const checkoutForm = document.getElementById('checkoutForm');
     const checkoutSummaryItems = document.getElementById('checkoutSummaryItems');
     const checkoutGrandTotal = document.getElementById('checkoutGrandTotal');
+    const receiptPaymentMethod = document.getElementById('receiptPaymentMethod');
+    const upiQrPanel = document.getElementById('upiQrPanel');
+    const upiTotalAmount = document.getElementById('upiTotalAmount');
 
     const successModalOverlay = document.getElementById('successModalOverlay');
     const successModalCloseBtn = document.getElementById('successModalCloseBtn');
@@ -818,11 +857,35 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 checkoutSummaryItems.innerHTML = summaryHTML;
                 if (checkoutGrandTotal) checkoutGrandTotal.textContent = `₹${total.toLocaleString('en-IN')}`;
+                if (upiTotalAmount) upiTotalAmount.textContent = `₹${total.toLocaleString('en-IN')}`;
+            }
+
+            // Reset payment method choice to COD on opening
+            const codRadio = document.querySelector('input[name="paymentMethod"][value="cod"]');
+            if (codRadio) {
+                codRadio.checked = true;
+            }
+            if (upiQrPanel) {
+                upiQrPanel.style.display = 'none';
             }
             
             checkoutModalOverlay.classList.add('active');
         });
     }
+
+    // Toggle UPI QR Panel based on payment method selection
+    const paymentMethods = document.querySelectorAll('input[name="paymentMethod"]');
+    paymentMethods.forEach(radio => {
+        radio.addEventListener('change', (e) => {
+            if (upiQrPanel) {
+                if (e.target.value === 'upi') {
+                    upiQrPanel.style.display = 'flex';
+                } else {
+                    upiQrPanel.style.display = 'none';
+                }
+            }
+        });
+    });
 
     if (checkoutModalCloseBtn) {
         checkoutModalCloseBtn.addEventListener('click', () => {
@@ -843,6 +906,11 @@ document.addEventListener('DOMContentLoaded', () => {
         checkoutForm.addEventListener('submit', (e) => {
             e.preventDefault();
 
+            // Extract payment method
+            const selectedPaymentInput = document.querySelector('input[name="paymentMethod"]:checked');
+            const selectedPaymentValue = selectedPaymentInput ? selectedPaymentInput.value : 'cod';
+            const paymentMethodLabel = selectedPaymentValue === 'upi' ? 'UPI Payment' : 'Cash on Delivery';
+
             // Extract customer & shipping info
             const orderDetails = {
                 name: document.getElementById('checkoutName').value,
@@ -855,6 +923,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 items: [...cart],
                 orderNum: 'APEX-' + Math.floor(10000 + Math.random() * 90000),
                 total: cart.reduce((sum, item) => sum + (item.price * item.quantity), 0),
+                paymentMethod: paymentMethodLabel,
                 timestamp: new Date().toISOString()
             };
 
@@ -865,6 +934,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Populate Success screen
             if (receiptOrderNum) receiptOrderNum.textContent = orderDetails.orderNum;
+            if (receiptPaymentMethod) receiptPaymentMethod.textContent = orderDetails.paymentMethod;
             if (receiptAmount) receiptAmount.textContent = `₹${orderDetails.total.toLocaleString('en-IN')}`;
 
             // Reset cart
