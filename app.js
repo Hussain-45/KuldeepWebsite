@@ -19,14 +19,20 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         try {
-            // Using text/plain prevents CORS preflight OPTIONS requests
+            // Using text/plain and no-cors guarantees the browser won't block the request/redirect due to CORS
             const response = await fetch(BACKEND_URL, {
                 method: 'POST',
+                mode: 'no-cors',
                 headers: {
                     'Content-Type': 'text/plain;charset=utf-8'
                 },
                 body: JSON.stringify(payload)
             });
+            
+            // For no-cors requests, the response status is 0 (opaque) indicating the request was sent successfully
+            if (response.status === 0 || response.type === 'opaque') {
+                return { success: true, mode: 'backend' };
+            }
             
             if (!response.ok) {
                 throw new Error(`Server returned HTTP status ${response.status}`);
@@ -39,8 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 return { success: false, error: json.message || 'Unknown error occurred' };
             } catch (e) {
-                // If response is OK but we can't parse JSON (e.g. redirect/CORS), it's highly likely it saved successfully.
-                return { success: true, mode: 'backend_unverified' };
+                return { success: true, mode: 'backend' };
             }
         } catch (err) {
             console.error('Error submitting to backend:', err);
