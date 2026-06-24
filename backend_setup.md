@@ -141,12 +141,10 @@ function doPost(e) {
     
     // Return success response to the website frontend
     return ContentService.createTextOutput(JSON.stringify({ status: 'success' }))
-                         .setMimeType(ContentService.MimeType.JSON)
-                         .setHeader("Access-Control-Allow-Origin", "*");
+                         .setMimeType(ContentService.MimeType.JSON);
   } catch (error) {
     return ContentService.createTextOutput(JSON.stringify({ status: 'error', message: error.toString() }))
-                         .setMimeType(ContentService.MimeType.JSON)
-                         .setHeader("Access-Control-Allow-Origin", "*");
+                         .setMimeType(ContentService.MimeType.JSON);
   }
 }
 
