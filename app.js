@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================================================
     // Paste your Google Apps Script Web App URL here after deploying the script.
     // Leave it empty to run in demo mode (saves to browser LocalStorage).
-    const BACKEND_URL = '';
+    const BACKEND_URL = 'https://script.google.com/macros/s/AKfycbwbLOOhHHeheDiSYZmP7pX-m3RKprnxN7WSbkw68BGnTiBzhZIefd5hw6vALqC_-qMa/exec';
 
     // Helper function to submit data to the Google Sheets backend
     async function submitData(payload) {
