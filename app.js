@@ -5,6 +5,50 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     // ==========================================================================
+    // 0. Configuration Settings & Backend API
+    // ==========================================================================
+    // Paste your Google Apps Script Web App URL here after deploying the script.
+    // Leave it empty to run in demo mode (saves to browser LocalStorage).
+    const BACKEND_URL = '';
+
+    // Helper function to submit data to the Google Sheets backend
+    async function submitData(payload) {
+        if (!BACKEND_URL) {
+            console.log("No BACKEND_URL configured. Running in local/demo mode:", payload);
+            return { success: true, mode: 'local' };
+        }
+        
+        try {
+            // Using text/plain prevents CORS preflight OPTIONS requests
+            const response = await fetch(BACKEND_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'text/plain;charset=utf-8'
+                },
+                body: JSON.stringify(payload)
+            });
+            
+            if (!response.ok) {
+                throw new Error(`Server returned HTTP status ${response.status}`);
+            }
+            
+            try {
+                const json = await response.json();
+                if (json && json.status === 'success') {
+                    return { success: true, mode: 'backend', data: json };
+                }
+                return { success: false, error: json.message || 'Unknown error occurred' };
+            } catch (e) {
+                // If response is OK but we can't parse JSON (e.g. redirect/CORS), it's highly likely it saved successfully.
+                return { success: true, mode: 'backend_unverified' };
+            }
+        } catch (err) {
+            console.error('Error submitting to backend:', err);
+            return { success: false, error: err.message };
+        }
+    }
+
+    // ==========================================================================
     // 1. Navigation & Header Sticky Behavior
     // ==========================================================================
     const header = document.querySelector('.header');
@@ -296,8 +340,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const toastContainer = document.getElementById('toastContainer');
 
     if (bookingForm) {
-        bookingForm.addEventListener('submit', (e) => {
+        bookingForm.addEventListener('submit', async (e) => {
             e.preventDefault();
+
+            const submitBtn = bookingForm.querySelector('.form-submit');
+            const originalBtnText = submitBtn ? submitBtn.innerHTML : 'Complete Registration ➔';
+            
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = 'Registering... <i class="fas fa-spinner fa-spin"></i>';
+            }
 
             // Fetch registration info safely
             const playerNameEl = document.getElementById('playerName');
@@ -309,6 +361,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const preferredDateEl = document.getElementById('preferredDate');
 
             const playerDetails = {
+                type: 'booking',
                 playerName: playerNameEl ? playerNameEl.value : '',
                 playerAge: playerAgeEl ? playerAgeEl.value : '',
                 program: programSelectEl ? programSelectEl.value : '',
@@ -319,16 +372,31 @@ document.addEventListener('DOMContentLoaded', () => {
                 timestamp: new Date().toISOString()
             };
 
-            // Save to localStorage for demo persistence
+            // Save to localStorage for demo persistence/backup
             const existingBookings = JSON.parse(localStorage.getItem('apex_bookings') || '[]');
             existingBookings.push(playerDetails);
             localStorage.setItem('apex_bookings', JSON.stringify(existingBookings));
 
-            // Close booking modal
-            closeModal();
+            const result = await submitData(playerDetails);
 
-            // Display Toast notification
-            showToast(`Success! Free trial booking confirmed for ${playerDetails.playerName}.`);
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalBtnText;
+            }
+
+            if (result.success) {
+                // Close booking modal
+                closeModal();
+                bookingForm.reset();
+
+                if (result.mode === 'local') {
+                    showToast(`Success! Trial booking saved locally for ${playerDetails.playerName}.`);
+                } else {
+                    showToast(`Success! Free trial booking confirmed for ${playerDetails.playerName}.`);
+                }
+            } else {
+                showToast(`⚠️ Error: ${result.error || 'Submission failed. Please try again.'}`);
+            }
         });
     }
 
@@ -1222,8 +1290,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Checkout Form Submission
     if (checkoutForm) {
-        checkoutForm.addEventListener('submit', (e) => {
+        checkoutForm.addEventListener('submit', async (e) => {
             e.preventDefault();
+
+            const submitBtn = checkoutForm.querySelector('.form-submit');
+            const originalBtnText = submitBtn ? submitBtn.innerHTML : 'Place Order ➔';
+            
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = 'Processing... <i class="fas fa-spinner fa-spin"></i>';
+            }
 
             // Extract payment method
             const selectedPaymentInput = document.querySelector('input[name="paymentMethod"]:checked');
@@ -1233,11 +1309,16 @@ document.addEventListener('DOMContentLoaded', () => {
             // Validate that UPI payments have screenshots attached
             if (selectedPaymentValue === 'upi' && !upiScreenshotBase64) {
                 showToast("⚠️ Please upload the payment screenshot to proceed.");
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnText;
+                }
                 return;
             }
 
             // Extract customer & shipping info
             const orderDetails = {
+                type: 'order',
                 name: document.getElementById('checkoutName').value,
                 email: document.getElementById('checkoutEmail').value,
                 phone: document.getElementById('checkoutPhone').value,
@@ -1253,47 +1334,62 @@ document.addEventListener('DOMContentLoaded', () => {
                 timestamp: new Date().toISOString()
             };
 
-            // Save order to history in local storage
+            // Save order to history in local storage for backup
             const orders = JSON.parse(localStorage.getItem('apex_orders')) || [];
             orders.push(orderDetails);
             localStorage.setItem('apex_orders', JSON.stringify(orders));
 
-            // Populate Success screen
-            if (receiptOrderNum) receiptOrderNum.textContent = orderDetails.orderNum;
-            if (receiptPaymentMethod) receiptPaymentMethod.textContent = orderDetails.paymentMethod;
-            if (receiptAmount) receiptAmount.textContent = `₹${orderDetails.total.toLocaleString('en-IN')}`;
+            const result = await submitData(orderDetails);
 
-            // Toggle WhatsApp Notify Box and set dynamic pre-filled text
-            const upiNotificationBox = document.getElementById('upiNotificationBox');
-            if (upiNotificationBox) {
-                if (selectedPaymentValue === 'upi') {
-                    upiNotificationBox.style.display = 'block';
-                    const whatsappNotifyBtn = document.getElementById('whatsappNotifyBtn');
-                    if (whatsappNotifyBtn) {
-                        const whatsappText = `Hello Apex FC! I have placed an order.\nReference: ${orderDetails.orderNum}\nName: ${orderDetails.name}\nPhone: ${orderDetails.phone}\nPayment Method: UPI\nTotal: ₹${orderDetails.total.toLocaleString('en-IN')}\n\nPlease verify my attached screenshot to confirm.`;
-                        whatsappNotifyBtn.href = `https://wa.me/919876543210?text=${encodeURIComponent(whatsappText)}`;
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalBtnText;
+            }
+
+            if (result.success) {
+                // Populate Success screen
+                if (receiptOrderNum) receiptOrderNum.textContent = orderDetails.orderNum;
+                if (receiptPaymentMethod) receiptPaymentMethod.textContent = orderDetails.paymentMethod;
+                if (receiptAmount) receiptAmount.textContent = `₹${orderDetails.total.toLocaleString('en-IN')}`;
+
+                // Toggle WhatsApp Notify Box and set dynamic pre-filled text
+                const upiNotificationBox = document.getElementById('upiNotificationBox');
+                if (upiNotificationBox) {
+                    if (selectedPaymentValue === 'upi') {
+                        upiNotificationBox.style.display = 'block';
+                        const whatsappNotifyBtn = document.getElementById('whatsappNotifyBtn');
+                        if (whatsappNotifyBtn) {
+                            const whatsappText = `Hello Apex FC! I have placed an order.\nReference: ${orderDetails.orderNum}\nName: ${orderDetails.name}\nPhone: ${orderDetails.phone}\nPayment Method: UPI\nTotal: ₹${orderDetails.total.toLocaleString('en-IN')}\n\nPlease verify my attached screenshot to confirm.`;
+                            whatsappNotifyBtn.href = `https://wa.me/919876543210?text=${encodeURIComponent(whatsappText)}`;
+                        }
+                    } else {
+                        upiNotificationBox.style.display = 'none';
                     }
-                } else {
-                    upiNotificationBox.style.display = 'none';
                 }
+
+                // Populate Success Order Tracking Timeline
+                const receiptTrackingTimeline = document.getElementById('receiptTrackingTimeline');
+                if (receiptTrackingTimeline) {
+                    receiptTrackingTimeline.innerHTML = generateTrackingTimelineHTML(orderDetails.paymentMethod, getOrderStatus(orderDetails));
+                }
+
+                // Reset cart
+                cart = [];
+                localStorage.removeItem('apex_cart');
+                updateCartUI();
+
+                // Close checkout, open success
+                checkoutModalOverlay.classList.remove('active');
+                successModalOverlay.classList.add('active');
+
+                if (result.mode === 'local') {
+                    showToast("Order saved locally! Receipt generated.");
+                } else {
+                    showToast("Order placed successfully! Receipt generated.");
+                }
+            } else {
+                showToast(`⚠️ Error: ${result.error || 'Checkout failed. Please try again.'}`);
             }
-
-            // Populate Success Order Tracking Timeline
-            const receiptTrackingTimeline = document.getElementById('receiptTrackingTimeline');
-            if (receiptTrackingTimeline) {
-                receiptTrackingTimeline.innerHTML = generateTrackingTimelineHTML(orderDetails.paymentMethod, getOrderStatus(orderDetails));
-            }
-
-            // Reset cart
-            cart = [];
-            localStorage.removeItem('apex_cart');
-            updateCartUI();
-
-            // Close checkout, open success
-            checkoutModalOverlay.classList.remove('active');
-            successModalOverlay.classList.add('active');
-
-            showToast("Order placed successfully! Receipt generated.");
         });
     }
 
